@@ -1,0 +1,280 @@
+2023-06-09T21:30:57.403+0500	INFO	cmd/main.go:22	Listen:	{"addres": ":8080"}
+2023-06-09T21:31:04.013+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T21:31:20.794+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T21:31:45.037+0500	ERROR	v1/dentists.go:69	error on GetDentistsList/dentistsUsecase.Get	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+github.com/AsaHero/abclinic/api/handlers/v1.dentistsHandler.GetDentistsList.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/api/handlers/v1/dentists.go:69
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*ChainHandler).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/chain.go:31
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.Recoverer.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/recoverer.go:43
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RequestLogger.func1.1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/logger.go:54
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RealIP.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/realip.go:36
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:90
+net/http.serverHandler.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2947
+net/http.(*conn).serve
+	/usr/local/go/src/net/http/server.go:1991
+2023-06-09T21:42:46.682+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T21:43:55.553+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T21:43:57.430+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T21:43:57.430+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-06-09T22:08:07.919+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T22:08:11.650+0500	ERROR	v1/dentists.go:69	error on GetDentistsList/dentistsUsecase.Get	{"error": "ERROR: column \"id\" does not exist (SQLSTATE 42703)"}
+github.com/AsaHero/abclinic/api/handlers/v1.dentistsHandler.GetDentistsList.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/api/handlers/v1/dentists.go:69
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*ChainHandler).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/chain.go:31
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.Recoverer.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/recoverer.go:43
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RequestLogger.func1.1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/logger.go:54
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RealIP.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/realip.go:36
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:90
+net/http.serverHandler.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2947
+net/http.(*conn).serve
+	/usr/local/go/src/net/http/server.go:1991
+2023-06-09T22:09:09.390+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T22:09:09.390+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-06-09T22:09:12.288+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T22:09:16.185+0500	ERROR	v1/dentists.go:69	error on GetDentistsList/dentistsUsecase.Get	{"error": "object not found"}
+github.com/AsaHero/abclinic/api/handlers/v1.dentistsHandler.GetDentistsList.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/api/handlers/v1/dentists.go:69
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*ChainHandler).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/chain.go:31
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.Recoverer.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/recoverer.go:43
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RequestLogger.func1.1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/logger.go:54
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RealIP.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/realip.go:36
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:90
+net/http.serverHandler.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2947
+net/http.(*conn).serve
+	/usr/local/go/src/net/http/server.go:1991
+2023-06-09T22:14:53.570+0500	ERROR	v1/dentists.go:69	error on GetDentistsList/dentistsUsecase.Get	{"error": "can't scan into dest[0]: cannot assign 1 into int64"}
+github.com/AsaHero/abclinic/api/handlers/v1.dentistsHandler.GetDentistsList.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/api/handlers/v1/dentists.go:69
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*ChainHandler).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/chain.go:31
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.Recoverer.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/recoverer.go:43
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RequestLogger.func1.1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/logger.go:54
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RealIP.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/realip.go:36
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:90
+net/http.serverHandler.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2947
+net/http.(*conn).serve
+	/usr/local/go/src/net/http/server.go:1991
+2023-06-09T22:18:27.657+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T22:18:27.657+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-06-09T22:20:31.928+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T22:20:38.788+0500	ERROR	v1/dentists.go:69	error on GetDentistsList/dentistsUsecase.Get	{"error": "can't scan into dest[0]: cannot assign 1 into uint64"}
+github.com/AsaHero/abclinic/api/handlers/v1.dentistsHandler.GetDentistsList.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/api/handlers/v1/dentists.go:69
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*ChainHandler).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/chain.go:31
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:73
+github.com/go-chi/chi/v5.(*Mux).Mount.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:316
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).routeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:444
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.Recoverer.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/recoverer.go:43
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RequestLogger.func1.1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/logger.go:54
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5/middleware.RealIP.func1
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/middleware/realip.go:36
+net/http.HandlerFunc.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2109
+github.com/go-chi/chi/v5.(*Mux).ServeHTTP
+	/home/asad/go/pkg/mod/github.com/go-chi/chi/v5@v5.0.8/mux.go:90
+net/http.serverHandler.ServeHTTP
+	/usr/local/go/src/net/http/server.go:2947
+net/http.(*conn).serve
+	/usr/local/go/src/net/http/server.go:1991
+2023-06-09T22:22:19.605+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T22:22:19.605+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-06-09T22:22:52.216+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T22:23:06.613+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T22:23:06.613+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-06-09T22:23:24.703+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-09T22:23:44.560+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-09T22:23:44.561+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-06-09T22:24:00.762+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
