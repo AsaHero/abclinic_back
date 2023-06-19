@@ -10,6 +10,8 @@ import (
 
 type Denstists interface {
 	Get(ctx context.Context, id int64) (*entity.Dentists, error)
+	List(ctx context.Context, filter map[string]string) ([]*entity.Dentists, error)
+	Update(ctx context.Context, req *entity.Dentists) error
 }
 
 type dentistsUsecase struct {
@@ -29,4 +31,18 @@ func (u *dentistsUsecase) Get(ctx context.Context, id int64) (*entity.Dentists, 
 	defer cancel()
 
 	return u.dentistsRepo.Get(ctx, id)
+}
+
+func (u *dentistsUsecase) List(ctx context.Context, filter map[string]string) ([]*entity.Dentists, error) {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.dentistsRepo.List(ctx, filter)
+}
+
+func (u *dentistsUsecase) Update(ctx context.Context, req *entity.Dentists) error {
+	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
+	defer cancel()
+
+	return u.dentistsRepo.Update(ctx, req)
 }

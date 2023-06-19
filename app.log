@@ -278,3 +278,8 @@ main.main.func1
 main.main.func1
 	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
 2023-06-09T22:24:00.762+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-19T14:21:49.656+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-06-19T14:24:23.862+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-06-19T14:24:23.863+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24

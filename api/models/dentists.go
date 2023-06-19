@@ -10,3 +10,9 @@ type GetDentistsListResponse struct {
 	Priority  int16  `json:"priority"`
 	Language  string `json:"language"`
 }
+
+type UpdateDentistRequest struct {
+	Name string `json:"name"`
+	Info string `json:"info"`
+	Img  string `json:"img"`
+}

@@ -1,4 +1,6 @@
 definitions:
+  models.Empty:
+    type: object
   models.GetDentistsListResponse:
     properties:
       clone_name:
@@ -25,9 +27,43 @@ definitions:
       message:
         type: string
     type: object
+  models.UpdateDentistRequest:
+    properties:
+      img:
+        type: string
+      info:
+        type: string
+      name:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /v1/dentists:
+    get:
+      consumes:
+      - application/json
+      description: List of dentists
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GetDentistsListResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get dentist list
+      tags:
+      - dentists
   /v1/dentists/{id}:
     get:
       consumes:
@@ -55,6 +91,40 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseError'
       summary: Get one dentist
+      tags:
+      - dentists
+    put:
+      consumes:
+      - application/json
+      description: Update dentists data by ID
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateDentistRequest'
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update dentist data
       tags:
       - dentists
 securityDefinitions:
