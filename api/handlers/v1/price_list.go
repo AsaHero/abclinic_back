@@ -32,7 +32,7 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 
 	router.Group(func(r chi.Router) {
 		r.Get("/{group_id}", handler.GetPriceListByGroup())
-		r.Post("/", nil)
+		r.Post("/", handler.CreateService())
 		r.Put("/{id}", nil)
 		r.Delete("/{id}", nil)
 		r.Get("/groups", nil)
