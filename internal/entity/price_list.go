@@ -2,10 +2,17 @@ package entity
 
 import "time"
 
-type PriceList struct {
-	GUID       string
-	Title      string
-	Service    string
-	Price      float64
-	Created_at time.Time
+type Services struct {
+	GUID      string
+	GroupID   string
+	Name      string
+	Price     float64
+	CreatedAt time.Time
+	UpdateAt  time.Time
+}
+
+type ServiceGroups struct {
+	GUID      string
+	Name      string
+	CreatedAt time.Time
 }

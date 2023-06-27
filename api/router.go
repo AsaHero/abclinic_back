@@ -16,9 +16,10 @@ import (
 )
 
 type RouteArguments struct {
-	Config          *config.Config
-	Logger          *zap.Logger
-	DentistsUsecase usecase.Denstists
+	Config           *config.Config
+	Logger           *zap.Logger
+	DentistsUsecase  usecase.Denstists
+	PriceListUsecase usecase.PriceList
 }
 
 // NewRoute
@@ -27,9 +28,10 @@ type RouteArguments struct {
 // @name Authorization
 func NewRouter(args RouteArguments) http.Handler {
 	handlersArgs := handlers.HandlerArguments{
-		Config:          args.Config,
-		Logger:          args.Logger,
-		DentistsUsecase: args.DentistsUsecase,
+		Config:           args.Config,
+		Logger:           args.Logger,
+		DentistsUsecase:  args.DentistsUsecase,
+		PriceListUsecase: args.PriceListUsecase,
 	}
 
 	router := chi.NewRouter()
@@ -37,8 +39,8 @@ func NewRouter(args RouteArguments) http.Handler {
 
 	router.Route("/v1", func(r chi.Router) {
 		r.Mount("/dentists", v1.NewDentistsHandler(handlersArgs))
+		r.Mount("/services", v1.NewPriceListHandler(handlersArgs))
 		r.Mount("/categorises", http.NotFoundHandler())
-		r.Mount("/prices", http.NotFoundHandler())
 	})
 
 	// declare swagger api route

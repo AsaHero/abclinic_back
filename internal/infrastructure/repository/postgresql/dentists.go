@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	tableName = "dentists"
+	tableDentists = "dentists"
 )
 
 type dentistsRepo struct {
@@ -20,7 +20,7 @@ type dentistsRepo struct {
 
 func NewDentistsRepo(db *postgres.PostgresDB) repository.Denstists {
 	return &dentistsRepo{
-		table: tableName,
+		table: tableDentists	,
 		db:    db,
 	}
 }

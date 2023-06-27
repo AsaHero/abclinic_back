@@ -7,7 +7,8 @@ import (
 )
 
 type HandlerArguments struct {
-	Config          *config.Config
-	Logger          *zap.Logger
-	DentistsUsecase usecase.Denstists
+	Config           *config.Config
+	Logger           *zap.Logger
+	DentistsUsecase  usecase.Denstists
+	PriceListUsecase usecase.PriceList
 }
