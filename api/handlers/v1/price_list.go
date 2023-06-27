@@ -95,7 +95,7 @@ func (h priceListHandler) GetPriceListByGroup() http.HandlerFunc {
 // @Accept json
 // @Produce json
 // #Param body body models.CreateServiceRequest true "body"
-// @Success 200 {object} models.GIUD
+// @Success 200 {object} models.GUIDResponse
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
 func (h priceListHandler) CreateService() http.HandlerFunc {
@@ -128,7 +128,7 @@ func (h priceListHandler) CreateService() http.HandlerFunc {
 			return
 		}
 
-		response := models.GUID{
+		response := models.GUIDResponse{
 			GUID: guid,
 		}
 

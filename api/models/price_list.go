@@ -11,7 +11,7 @@ type ServicesGroup struct {
 	Name string `json:"name"`
 }
 
-type GUID struct {
+type GUIDResponse struct {
 	GUID string `json:"guid"`
 }
 
