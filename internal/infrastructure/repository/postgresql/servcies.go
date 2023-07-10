@@ -97,11 +97,10 @@ func (r servicesRepo) List(ctx context.Context, filter map[string]string) ([]*en
 func (r servicesRepo) Update(ctx context.Context, req *entity.Services) error {
 	queryBuilder := r.db.Sq.Builder.Update(r.table).SetMap(
 		map[string]interface{}{
-			"grpup_id": req.GroupID,
 			"name":     req.Name,
 			"price":    req.Price,
 		},
-	).Where(r.db.Sq.Equal("id", req.GUID))
+	).Where(r.db.Sq.Equal("guid", req.GUID))
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

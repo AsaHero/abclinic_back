@@ -11,4 +11,5 @@ type HandlerArguments struct {
 	Logger           *zap.Logger
 	DentistsUsecase  usecase.Denstists
 	PriceListUsecase usecase.PriceList
+	InfoUsecase      usecase.InfoUsecase
 }

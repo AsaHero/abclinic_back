@@ -3,7 +3,6 @@ package postgresql
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/infrastructure/repository"
@@ -11,27 +10,30 @@ import (
 )
 
 var (
-	tableServiceGroups = "service_groups"
+	tableArticles = "articles"
 )
 
-type serviceGroupsRepo struct {
+type articlesRepo struct {
 	table string
 	db    *postgres.PostgresDB
 }
 
-func NewServiceGroupsRepo(db *postgres.PostgresDB) repository.ServiceGroups {
-	return &serviceGroupsRepo{
-		table: tableServiceGroups,
+func NewArticlesRepo(db *postgres.PostgresDB) repository.Articles {
+	return &articlesRepo{
+		table: tableArticles,
 		db:    db,
 	}
 }
 
-func (r serviceGroupsRepo) Create(ctx context.Context, req *entity.ServiceGroups) error {
+func (r articlesRepo) Create(ctx context.Context, req *entity.Articles) error {
 	queryBuilder := r.db.Sq.Builder.Insert(r.table).SetMap(
 		map[string]interface{}{
 			"guid":       req.GUID,
-			"name":       req.Name,
-			"created_at": time.Now().Local(),
+			"chapter_id": req.ChapterID,
+			"info":       req.Info,
+			"img":        req.Img,
+			"side":       req.Side,
+			"created_at": req.CreatedAt,
 		},
 	)
 
@@ -45,16 +47,25 @@ func (r serviceGroupsRepo) Create(ctx context.Context, req *entity.ServiceGroups
 		return r.db.Error(err)
 	}
 
-	
 	return nil
 }
 
-func (r serviceGroupsRepo) List(ctx context.Context, filter map[string]string) ([]*entity.ServiceGroups, error) {
+func (r articlesRepo) List(ctx context.Context, filter map[string]string) ([]*entity.Articles, error) {
 	queryBuilder := r.db.Sq.Builder.Select(
 		"guid",
-		"name",
+		"chapter_id",
+		"info",
+		"img",
+		"side",
 		"created_at",
 	).From(r.table)
+
+	for k, v := range filter {
+		switch k {
+		case "chapter_id":
+			queryBuilder = queryBuilder.Where(r.db.Sq.Equal(k, v))
+		}
+	}
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
@@ -66,27 +77,32 @@ func (r serviceGroupsRepo) List(ctx context.Context, filter map[string]string) (
 		return nil, r.db.Error(err)
 	}
 
-	var groups []*entity.ServiceGroups
+	var services []*entity.Articles
 	for rows.Next() {
-		var group entity.ServiceGroups
+		var service entity.Articles
 		if err := rows.Scan(
-			&group.GUID,
-			&group.Name,
-			&group.CreatedAt,
+			&service.GUID,
+			&service.ChapterID,
+			&service.Info,
+			&service.Img,
+			&service.Side,
+			&service.CreatedAt,
 		); err != nil {
 			return nil, r.db.Error(err)
 		}
 
-		groups = append(groups, &group)
+		services = append(services, &service)
 	}
 
-	return groups, nil
+	return services, nil
 }
 
-func (r serviceGroupsRepo) Update(ctx context.Context, req *entity.ServiceGroups) error {
+func (r articlesRepo) Update(ctx context.Context, req *entity.Articles) error {
 	queryBuilder := r.db.Sq.Builder.Update(r.table).SetMap(
 		map[string]interface{}{
-			"name": req.Name,
+			"info": req.Info,
+			"img":  req.Img,
+			"side": req.Side,
 		},
 	).Where(r.db.Sq.Equal("guid", req.GUID))
 
@@ -107,8 +123,17 @@ func (r serviceGroupsRepo) Update(ctx context.Context, req *entity.ServiceGroups
 	return nil
 }
 
-func (r serviceGroupsRepo) Delete(ctx context.Context, id string) error {
-	queryBuilder := r.db.Sq.Builder.Delete(r.table).Where(r.db.Sq.Equal("guid", id))
+func (r articlesRepo) Delete(ctx context.Context, filter map[string]string) error {
+	queryBuilder := r.db.Sq.Builder.Delete(r.table)
+
+	for k, v := range filter {
+		switch k {
+		case "guid":
+			queryBuilder = queryBuilder.Where(r.db.Sq.Equal(k, v))
+		case "chapter_id":
+			queryBuilder = queryBuilder.Where(r.db.Sq.Equal(k, v))
+		}
+	}
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

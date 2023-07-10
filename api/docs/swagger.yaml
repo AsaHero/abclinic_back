@@ -1,4 +1,52 @@
 definitions:
+  models.Article:
+    properties:
+      guid:
+        type: string
+      img:
+        type: string
+      side:
+        type: string
+      text:
+        type: string
+    type: object
+  models.Chapter:
+    properties:
+      guid:
+        type: string
+      name:
+        type: string
+    type: object
+  models.CreateArticleRequest:
+    properties:
+      chapter_id:
+        type: string
+      img:
+        type: string
+      side:
+        type: string
+      text:
+        type: string
+    type: object
+  models.CreateChapterRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  models.CreateServiceGroupRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  models.CreateServiceRequest:
+    properties:
+      group_id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+    type: object
   models.Empty:
     type: object
   models.GUIDResponse:
@@ -41,6 +89,22 @@ definitions:
       price:
         type: number
     type: object
+  models.ServicesGroup:
+    properties:
+      guid:
+        type: string
+      name:
+        type: string
+    type: object
+  models.UpdateArticleRequest:
+    properties:
+      img:
+        type: string
+      side:
+        type: string
+      text:
+        type: string
+    type: object
   models.UpdateDentistRequest:
     properties:
       img:
@@ -50,9 +114,284 @@ definitions:
       name:
         type: string
     type: object
+  models.UpdateServiceRequest:
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+    type: object
 info:
   contact: {}
 paths:
+  /v1/articles:
+    post:
+      consumes:
+      - application/json
+      description: Create new article
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create new article
+      tags:
+      - Info
+  /v1/articles/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete article by guid
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete article
+      tags:
+      - Info
+    get:
+      consumes:
+      - application/json
+      description: Get servivies by group id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Article'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get services
+      tags:
+      - Info
+    put:
+      consumes:
+      - application/json
+      description: Update article
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update article
+      tags:
+      - Info
+  /v1/articles/chapter:
+    get:
+      consumes:
+      - application/json
+      description: Get article chapters
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Chapter'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get article chapters
+      tags:
+      - Info
+    post:
+      consumes:
+      - application/json
+      description: Create new article chapter
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateChapterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create new article chapter
+      tags:
+      - Info
+  /v1/articles/chapter/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete article chapter
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete article cahpter
+      tags:
+      - Info
+    get:
+      consumes:
+      - application/json
+      description: Get servivies chapter
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ServicesGroup'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get services chapter
+      tags:
+      - Info
+    put:
+      consumes:
+      - application/json
+      description: Update articles chapter
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateChapterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update article chapter
+      tags:
+      - Info
   /v1/dentists:
     get:
       consumes:
@@ -146,6 +485,13 @@ paths:
       consumes:
       - application/json
       description: Create new service
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateServiceRequest'
       produces:
       - application/json
       responses:
@@ -193,6 +539,214 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseError'
       summary: Get services
+      tags:
+      - Price list
+  /v1/services/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete servivies by guid
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete services
+      tags:
+      - Price list
+    put:
+      consumes:
+      - application/json
+      description: Update service
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateServiceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update service
+      tags:
+      - Price list
+  /v1/services/groups:
+    get:
+      consumes:
+      - application/json
+      description: Get servivies groups
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ServicesGroup'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get services groups
+      tags:
+      - Price list
+    post:
+      consumes:
+      - application/json
+      description: Create new service group
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateServiceGroupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create new service group
+      tags:
+      - Price list
+  /v1/services/groups/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete servivies group
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete services group
+      tags:
+      - Price list
+    get:
+      consumes:
+      - application/json
+      description: Get servivies group
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ServicesGroup'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get services group
+      tags:
+      - Price list
+    put:
+      consumes:
+      - application/json
+      description: Update service group
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateServiceGroupRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update service group
       tags:
       - Price list
 securityDefinitions:

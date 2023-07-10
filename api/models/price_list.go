@@ -25,3 +25,7 @@ type UpdateServiceRequest struct {
 	Name  string  `json:"name"`
 	Price float64 `json:"price"`
 }
+
+type CreateServiceGroupRequest struct {
+	Name    string  `json:"name"`
+}

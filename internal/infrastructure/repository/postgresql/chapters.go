@@ -3,7 +3,6 @@ package postgresql
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/infrastructure/repository"
@@ -11,27 +10,27 @@ import (
 )
 
 var (
-	tableServiceGroups = "service_groups"
+	tableChapters = "chapters"
 )
 
-type serviceGroupsRepo struct {
+type chaptersRepo struct {
 	table string
 	db    *postgres.PostgresDB
 }
 
-func NewServiceGroupsRepo(db *postgres.PostgresDB) repository.ServiceGroups {
-	return &serviceGroupsRepo{
-		table: tableServiceGroups,
+func NewChaptersRepo(db *postgres.PostgresDB) repository.Chapters {
+	return &chaptersRepo{
+		table: tableChapters,
 		db:    db,
 	}
 }
 
-func (r serviceGroupsRepo) Create(ctx context.Context, req *entity.ServiceGroups) error {
+func (r chaptersRepo) Create(ctx context.Context, req *entity.Chapters) error {
 	queryBuilder := r.db.Sq.Builder.Insert(r.table).SetMap(
 		map[string]interface{}{
 			"guid":       req.GUID,
-			"name":       req.Name,
-			"created_at": time.Now().Local(),
+			"title":      req.Title,
+			"created_at": req.CreatedAt,
 		},
 	)
 
@@ -45,14 +44,13 @@ func (r serviceGroupsRepo) Create(ctx context.Context, req *entity.ServiceGroups
 		return r.db.Error(err)
 	}
 
-	
 	return nil
 }
 
-func (r serviceGroupsRepo) List(ctx context.Context, filter map[string]string) ([]*entity.ServiceGroups, error) {
+func (r chaptersRepo) List(ctx context.Context, filter map[string]string) ([]*entity.Chapters, error) {
 	queryBuilder := r.db.Sq.Builder.Select(
 		"guid",
-		"name",
+		"title",
 		"created_at",
 	).From(r.table)
 
@@ -66,12 +64,12 @@ func (r serviceGroupsRepo) List(ctx context.Context, filter map[string]string) (
 		return nil, r.db.Error(err)
 	}
 
-	var groups []*entity.ServiceGroups
+	var groups []*entity.Chapters
 	for rows.Next() {
-		var group entity.ServiceGroups
+		var group entity.Chapters
 		if err := rows.Scan(
 			&group.GUID,
-			&group.Name,
+			&group.Title,
 			&group.CreatedAt,
 		); err != nil {
 			return nil, r.db.Error(err)
@@ -83,10 +81,10 @@ func (r serviceGroupsRepo) List(ctx context.Context, filter map[string]string) (
 	return groups, nil
 }
 
-func (r serviceGroupsRepo) Update(ctx context.Context, req *entity.ServiceGroups) error {
+func (r chaptersRepo) Update(ctx context.Context, req *entity.Chapters) error {
 	queryBuilder := r.db.Sq.Builder.Update(r.table).SetMap(
 		map[string]interface{}{
-			"name": req.Name,
+			"title": req.Title,
 		},
 	).Where(r.db.Sq.Equal("guid", req.GUID))
 
@@ -107,7 +105,7 @@ func (r serviceGroupsRepo) Update(ctx context.Context, req *entity.ServiceGroups
 	return nil
 }
 
-func (r serviceGroupsRepo) Delete(ctx context.Context, id string) error {
+func (r chaptersRepo) Delete(ctx context.Context, id string) error {
 	queryBuilder := r.db.Sq.Builder.Delete(r.table).Where(r.db.Sq.Equal("guid", id))
 
 	query, args, err := queryBuilder.ToSql()

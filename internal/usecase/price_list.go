@@ -86,10 +86,17 @@ func (u priceListUsecase) DeleteServiceGroup(ctx context.Context, id string) err
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	err := u.serviceRepo.Delete(ctx, map[string]string{"group": id})
+	err := u.serviceRepo.Delete(ctx, map[string]string{"group_id": id})
+	if err != nil {
+		if err.Error() != "no sql rows" {
+			return err
+		}
+	}
+
+	err = u.serviceGroups.Delete(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	return u.serviceGroups.Delete(ctx, id)
+	return nil
 }

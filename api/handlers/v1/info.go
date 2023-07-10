@@ -15,56 +15,55 @@ import (
 	"go.uber.org/zap"
 )
 
-type priceListHandler struct {
-	config           *config.Config
-	logger           *zap.Logger
-	priceListUsecase usecase.PriceList
+type infoHandler struct {
+	config      *config.Config
+	logger      *zap.Logger
+	infoUsecase usecase.InfoUsecase
 }
 
-func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
-	handler := priceListHandler{
-		config:           args.Config,
-		logger:           args.Logger,
-		priceListUsecase: args.PriceListUsecase,
+func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
+	handler := infoHandler{
+		config:      args.Config,
+		logger:      args.Logger,
+		infoUsecase: args.InfoUsecase,
 	}
 
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-		r.Get("/{group_id}", handler.GetPriceListByGroup())
-		r.Post("/", handler.CreateService())
-		r.Put("/{id}", handler.UpdateService())
-		r.Delete("/{id}", handler.DeleteService())
-		r.Get("/groups", handler.GetGroupList())
-		r.Get("/groups/{id}", handler.GetGroup())
-		r.Post("/groups", handler.CreateServiceGroup())
-		r.Put("/groups/{id}", handler.UpdateServiceGroup())
-		r.Delete("/groups/{id}", handler.DeleteServiceGroups())
+		r.Get("/{id}", handler.GetArticlesByChapter())
+		r.Post("/", handler.CreateArticle())
+		r.Put("/{id}", handler.UpdateArticle())
+		r.Delete("/{id}", handler.DeleteArticle())
+		r.Get("/chapter", handler.GetChapterList())
+		r.Get("/chapter/{id}", handler.GetChpater())
+		r.Post("/chapter", handler.CreateChapter())
+		r.Put("/chapter/{id}", handler.UpdateChapter())
+		r.Delete("/chapter/{id}", handler.DeleteChapter())
 	})
 
 	return router
 }
 
-// GetPriceListByGroup
-// @Router /v1/services/{group_id} [GET]
+// GetArticlesByChapter
+// @Router /v1/articles/{id} [GET]
 // @Summary Get services
 // @Description Get servivies by group id
-// @Tags Price list
+// @Tags Info
 // @Accept json
 // @Produce json
-// @Param group_id path string true "group_id"
-// @Success 200 {object} []models.Services
+// @Param id path string true "id"
+// @Success 200 {object} []models.Article
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) GetPriceListByGroup() http.HandlerFunc {
+func (h infoHandler) GetArticlesByChapter() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		groupID := chi.URLParam(r, "group_id")
+		groupID := chi.URLParam(r, "id")
 
-		services, err := h.priceListUsecase.ListServices(ctx, map[string]string{"group_id": groupID})
+		articles, err := h.infoUsecase.ListArticles(ctx, map[string]string{"group_id": groupID})
 		if err != nil {
-			h.logger.Error("error on GetPriceListByGroup/ priceListUsecase.ListServices", zap.Error(err))
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
 				HTTPStatusCode: http.StatusInternalServerError,
@@ -73,13 +72,14 @@ func (h priceListHandler) GetPriceListByGroup() http.HandlerFunc {
 			return
 		}
 
-		response := []models.Services{}
+		response := []models.Article{}
 
-		for _, v := range services {
-			response = append(response, models.Services{
-				GUID:  v.GUID,
-				Name:  v.Name,
-				Price: v.Price,
+		for _, v := range articles {
+			response = append(response, models.Article{
+				GUID: v.GUID,
+				Text: v.Info,
+				Img:  v.Img,
+				Side: v.Side,
 			})
 		}
 
@@ -87,22 +87,22 @@ func (h priceListHandler) GetPriceListByGroup() http.HandlerFunc {
 	}
 }
 
-// CreateService
-// @Router /v1/services [POST]
-// @Summary Create new service
-// @Description Create new service
-// @Tags Price list
+// CreateArticle
+// @Router /v1/articles [POST]
+// @Summary Create new article
+// @Description Create new article
+// @Tags Info
 // @Accept json
 // @Produce json
-// @Param body body models.CreateServiceRequest true "body"
+// @Param body body models.CreateArticleRequest true "body"
 // @Success 200 {object} models.GUIDResponse
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) CreateService() http.HandlerFunc {
+func (h infoHandler) CreateArticle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		request := models.CreateServiceRequest{}
+		request := models.CreateArticleRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 			h.logger.Error("error on decoding request body", zap.Error(err))
 			render.Render(w, r, &errorsapi.ErrResponse{
@@ -113,13 +113,13 @@ func (h priceListHandler) CreateService() http.HandlerFunc {
 			return
 		}
 
-		guid, err := h.priceListUsecase.CreateService(ctx, &entity.Services{
-			GroupID: request.GroupID,
-			Name:    request.Name,
-			Price:   request.Price,
+		guid, err := h.infoUsecase.CreateArticle(ctx, &entity.Articles{
+			ChapterID: request.ChapterID,
+			Info:      request.Text,
+			Img:       request.Img,
+			Side:      request.Side,
 		})
 		if err != nil {
-			h.logger.Error("error on CreateService/ priceListUsecase.CreateService", zap.Error(err))
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
 				HTTPStatusCode: http.StatusInternalServerError,
@@ -136,25 +136,25 @@ func (h priceListHandler) CreateService() http.HandlerFunc {
 	}
 }
 
-// UpdateService
-// @Router /v1/services/{id} [PUT]
-// @Summary Update service
-// @Description Update service
-// @Tags Price list
+// UpdateArticle
+// @Router /v1/articles/{id} [PUT]
+// @Summary Update article
+// @Description Update article
+// @Tags Info
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Param body body models.UpdateServiceRequest true "body"
+// @Param body body models.UpdateArticleRequest true "body"
 // @Success 200 {object} models.Empty
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) UpdateService() http.HandlerFunc {
+func (h infoHandler) UpdateArticle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
 		guid := chi.URLParam(r, "id")
 
-		request := models.UpdateServiceRequest{}
+		request := models.UpdateArticleRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -164,10 +164,11 @@ func (h priceListHandler) UpdateService() http.HandlerFunc {
 			return
 		}
 
-		err := h.priceListUsecase.UpdateService(ctx, &entity.Services{
-			GUID:  guid,
-			Name:  request.Name,
-			Price: request.Price,
+		err := h.infoUsecase.UpdateArticles(ctx, &entity.Articles{
+			GUID: guid,
+			Info: request.Text,
+			Img:  request.Img,
+			Side: request.Side,
 		})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
@@ -179,28 +180,27 @@ func (h priceListHandler) UpdateService() http.HandlerFunc {
 		}
 
 		render.JSON(w, r, models.Empty{})
-
 	}
 }
 
-// DeleteService
-// @Router /v1/services/{id} [DELETE]
-// @Summary Delete services
-// @Description Delete servivies by guid
-// @Tags Price list
+// DeleteArticle
+// @Router /v1/articles/{id} [DELETE]
+// @Summary Delete article
+// @Description Delete article by guid
+// @Tags Info
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} models.Empty
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) DeleteService() http.HandlerFunc {
+func (h infoHandler) DeleteArticle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
 		guid := chi.URLParam(r, "id")
 
-		err := h.priceListUsecase.DeleteService(ctx, guid)
+		err := h.infoUsecase.DeleteArticles(ctx, guid)
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -214,21 +214,21 @@ func (h priceListHandler) DeleteService() http.HandlerFunc {
 	}
 }
 
-// GetGroupList
-// @Router /v1/services/groups [GET]
-// @Summary Get services groups
-// @Description Get servivies groups
-// @Tags Price list
+// GetChapterList
+// @Router /v1/articles/chapter [GET]
+// @Summary Get article chapters
+// @Description Get article chapters
+// @Tags Info
 // @Accept json
 // @Produce json
-// @Success 200 {object} []models.ServicesGroup
+// @Success 200 {object} []models.Chapter
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) GetGroupList() http.HandlerFunc {
+func (h infoHandler) GetChapterList() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		groups, err := h.priceListUsecase.ListServiceGroups(ctx, map[string]string{})
+		chapters, err := h.infoUsecase.ListArticlesChapters(ctx, map[string]string{})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -238,12 +238,12 @@ func (h priceListHandler) GetGroupList() http.HandlerFunc {
 			return
 		}
 
-		response := []models.ServicesGroup{}
+		response := []models.Chapter{}
 
-		for _, v := range groups {
-			response = append(response, models.ServicesGroup{
+		for _, v := range chapters {
+			response = append(response, models.Chapter{
 				GUID: v.GUID,
-				Name: v.Name,
+				Name: v.Title,
 			})
 		}
 
@@ -251,24 +251,24 @@ func (h priceListHandler) GetGroupList() http.HandlerFunc {
 	}
 }
 
-// GetGroup
-// @Router /v1/services/groups/{id} [GET]
-// @Summary Get services group
-// @Description Get servivies group
-// @Tags Price list
+// GetChpater
+// @Router /v1/articles/chapter/{id} [GET]
+// @Summary Get services chapter
+// @Description Get servivies chapter
+// @Tags Info
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} models.ServicesGroup
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) GetGroup() http.HandlerFunc {
+func (h infoHandler) GetChpater() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
 		guid := chi.URLParam(r, "id")
 
-		groups, err := h.priceListUsecase.ListServiceGroups(ctx, map[string]string{"guid": guid})
+		groups, err := h.infoUsecase.ListArticlesChapters(ctx, map[string]string{"guid": guid})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -278,31 +278,31 @@ func (h priceListHandler) GetGroup() http.HandlerFunc {
 			return
 		}
 
-		response := models.ServicesGroup{
+		response := models.Chapter{
 			GUID: groups[0].GUID,
-			Name: groups[0].Name,
+			Name: groups[0].Title,
 		}
 
 		render.JSON(w, r, response)
 	}
 }
 
-// CreateService
-// @Router /v1/services/groups [POST]
-// @Summary Create new service group
-// @Description Create new service group
-// @Tags Price list
+// CreateChapter
+// @Router /v1/articles/chapter [POST]
+// @Summary Create new article chapter
+// @Description Create new article chapter
+// @Tags Info
 // @Accept json
 // @Produce json
-// @Param body body models.CreateServiceGroupRequest true "body"
+// @Param body body models.CreateChapterRequest true "body"
 // @Success 200 {object} models.GUIDResponse
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) CreateServiceGroup() http.HandlerFunc {
+func (h infoHandler) CreateChapter() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		request := models.CreateServiceGroupRequest{}
+		request := models.CreateChapterRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -312,8 +312,8 @@ func (h priceListHandler) CreateServiceGroup() http.HandlerFunc {
 			return
 		}
 
-		guid, err := h.priceListUsecase.CreateServiceGroup(ctx, &entity.ServiceGroups{
-			Name: request.Name,
+		guid, err := h.infoUsecase.CreateArticlesChapter(ctx, &entity.Chapters{
+			Title: request.Name,
 		})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
@@ -332,25 +332,25 @@ func (h priceListHandler) CreateServiceGroup() http.HandlerFunc {
 	}
 }
 
-// UpdateServiceGroup
-// @Router /v1/services/groups/{id} [PUT]
-// @Summary Update service group
-// @Description Update service group
-// @Tags Price list
+// UpdateChapter
+// @Router /v1/articles/chapter/{id} [PUT]
+// @Summary Update article chapter
+// @Description Update articles chapter
+// @Tags Info
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Param body body models.CreateServiceGroupRequest true "body"
+// @Param body body models.CreateChapterRequest true "body"
 // @Success 200 {object} models.Empty
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) UpdateServiceGroup() http.HandlerFunc {
+func (h infoHandler) UpdateChapter() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
 		guid := chi.URLParam(r, "id")
 
-		request := models.CreateServiceGroupRequest{}
+		request := models.CreateChapterRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -360,9 +360,9 @@ func (h priceListHandler) UpdateServiceGroup() http.HandlerFunc {
 			return
 		}
 
-		err := h.priceListUsecase.UpdateServiceGroup(ctx, &entity.ServiceGroups{
-			GUID: guid,
-			Name: request.Name,
+		err := h.infoUsecase.UpdateArticlesChapter(ctx, &entity.Chapters{
+			GUID:  guid,
+			Title: request.Name,
 		})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
@@ -378,24 +378,24 @@ func (h priceListHandler) UpdateServiceGroup() http.HandlerFunc {
 	}
 }
 
-// DeleteServiceGroups
-// @Router /v1/services/groups/{id} [DELETE]
-// @Summary Delete services group
-// @Description Delete servivies group
-// @Tags Price list
+// DeleteChapter
+// @Router /v1/articles/chapter/{id} [DELETE]
+// @Summary Delete article cahpter
+// @Description Delete article chapter
+// @Tags Info
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
 // @Success 200 {object} models.Empty
 // @Failure 404 {object} models.ResponseError
 // @Failure 500 {object} models.ResponseError
-func (h priceListHandler) DeleteServiceGroups() http.HandlerFunc {
+func (h infoHandler) DeleteChapter() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
 		guid := chi.URLParam(r, "id")
 
-		err := h.priceListUsecase.DeleteServiceGroup(ctx, guid)
+		err := h.infoUsecase.DeleteArticlesChapter(ctx, guid)
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
