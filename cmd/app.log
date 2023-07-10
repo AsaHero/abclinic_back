@@ -1,5 +1,0 @@
-2023-07-03T01:02:15.325+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
-2023-07-03T01:02:15.326+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "listen tcp :8080: bind: address already in use"}
-main.main.func1
-	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
-2023-07-03T01:02:35.869+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
