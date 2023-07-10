@@ -53,16 +53,20 @@ func (a *App) Run() error {
 	dentistsRepo := postgresql.NewDentistsRepo(a.DB)
 	serviceRepo := postgresql.NewServicesRepo(a.DB)
 	serviceGroupdRepo := postgresql.NewServiceGroupsRepo(a.DB)
+	artcileRepo := postgresql.NewArticlesRepo(a.DB)
+	chapterRepo := postgresql.NewChaptersRepo(a.DB)
 
 	// usecase init
 	dentistsUsecase := usecase.NewDentistsUsecase(contextTimeout, dentistsRepo)
 	priceListUsecase := usecase.NewPriceListUsecase(contextTimeout, serviceRepo, serviceGroupdRepo)
+	infoUsecase := usecase.NewinfoUsecase(contextTimeout, artcileRepo, chapterRepo)
 
 	routerArgs := api.RouteArguments{
 		Config:           a.Config,
 		Logger:           a.Logger,
 		DentistsUsecase:  dentistsUsecase,
 		PriceListUsecase: priceListUsecase,
+		InfoUsecase:      infoUsecase,
 	}
 
 	// router init

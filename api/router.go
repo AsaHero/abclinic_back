@@ -42,7 +42,7 @@ func NewRouter(args RouteArguments) http.Handler {
 	router.Route("/v1", func(r chi.Router) {
 		r.Mount("/dentists", v1.NewDentistsHandler(handlersArgs))
 		r.Mount("/services", v1.NewPriceListHandler(handlersArgs))
-		r.Mount("/aricles", http.NotFoundHandler())
+		r.Mount("/articles", v1.NewInfoHandler(handlersArgs))
 	})
 
 	// declare swagger api route

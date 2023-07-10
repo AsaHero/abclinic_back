@@ -355,3 +355,18 @@ main.main.func1
 main.main.func1
 	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
 2023-07-03T01:06:36.731+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-07-11T01:26:23.092+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-07-11T01:29:08.530+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-07-11T01:29:08.531+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-07-11T01:29:10.426+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-07-11T01:31:01.861+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-07-11T01:31:01.861+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
+2023-07-11T01:31:04.902+0500	INFO	cmd/main.go:22	Listen:	{"address": ":8080"}
+2023-07-11T01:38:50.266+0500	INFO	cmd/main.go:34	abclinic sevrver stops
+2023-07-11T01:38:50.266+0500	ERROR	cmd/main.go:24	error while running server: %v	{"error": "http: Server closed"}
+main.main.func1
+	/home/asad/go/src/github.com/AsaHero/abclinic/cmd/main.go:24
