@@ -47,8 +47,8 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 
 // GetArticlesByChapter
 // @Router /v1/articles/{id} [GET]
-// @Summary Get services
-// @Description Get servivies by group id
+// @Summary Get articles
+// @Description Get articles by chapter id
 // @Tags Info
 // @Accept json
 // @Produce json
@@ -60,9 +60,9 @@ func (h infoHandler) GetArticlesByChapter() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 
-		groupID := chi.URLParam(r, "id")
+		chapterID := chi.URLParam(r, "id")
 
-		articles, err := h.infoUsecase.ListArticles(ctx, map[string]string{"group_id": groupID})
+		articles, err := h.infoUsecase.ListArticles(ctx, map[string]string{"chapter_id": chapterID})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -253,8 +253,8 @@ func (h infoHandler) GetChapterList() http.HandlerFunc {
 
 // GetChpater
 // @Router /v1/articles/chapter/{id} [GET]
-// @Summary Get services chapter
-// @Description Get servivies chapter
+// @Summary Get article chapter
+// @Description Get article chapter
 // @Tags Info
 // @Accept json
 // @Produce json
@@ -268,7 +268,7 @@ func (h infoHandler) GetChpater() http.HandlerFunc {
 
 		guid := chi.URLParam(r, "id")
 
-		groups, err := h.infoUsecase.ListArticlesChapters(ctx, map[string]string{"guid": guid})
+		chapters, err := h.infoUsecase.ListArticlesChapters(ctx, map[string]string{"guid": guid})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
@@ -279,8 +279,8 @@ func (h infoHandler) GetChpater() http.HandlerFunc {
 		}
 
 		response := models.Chapter{
-			GUID: groups[0].GUID,
-			Name: groups[0].Title,
+			GUID: chapters[0].GUID,
+			Name: chapters[0].Title,
 		}
 
 		render.JSON(w, r, response)

@@ -145,7 +145,7 @@ const docTemplate = `{
         },
         "/v1/articles/chapter/{id}": {
             "get": {
-                "description": "Get servivies chapter",
+                "description": "Get article chapter",
                 "consumes": [
                     "application/json"
                 ],
@@ -155,7 +155,7 @@ const docTemplate = `{
                 "tags": [
                     "Info"
                 ],
-                "summary": "Get services chapter",
+                "summary": "Get article chapter",
                 "parameters": [
                     {
                         "type": "string",
@@ -282,7 +282,7 @@ const docTemplate = `{
         },
         "/v1/articles/{id}": {
             "get": {
-                "description": "Get servivies by group id",
+                "description": "Get articles by chapter id",
                 "consumes": [
                     "application/json"
                 ],
@@ -292,7 +292,7 @@ const docTemplate = `{
                 "tags": [
                     "Info"
                 ],
-                "summary": "Get services",
+                "summary": "Get articles",
                 "parameters": [
                     {
                         "type": "string",
