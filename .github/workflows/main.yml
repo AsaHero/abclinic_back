@@ -1,0 +1,67 @@
+name: CI
+
+env:
+    REGISTRY: "registry.digitalocean.com/abclinic"
+    IMAGE_NAME: "abclinic"
+    CONTAINER_NAME: "abclinic-backend"
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main        
+jobs:
+    build:
+        runs-on: linux-ubuntu
+        
+        steps: 
+            - name: Checkout master
+              uses: actions/checkout@v3
+            
+            - name: Build container image
+              run: docker build -t $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7) .
+
+            - name: Install doctl
+              uses: digitalocean/action-doctl@v2
+              with:
+                token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+            - name: Log in to DigitalOcean Container Registry with short-lived credentials
+              run: doctl registry login --expiry-seconds 600
+
+            - name: Push image to DigitalOcean Container Registry
+              run: docker push $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
+
+
+    
+    deploy:
+        runs-on: linux-ubuntu    
+        needs: build
+
+        steps:
+          - name: Deploy to DigitalOcean droplet via SSH action
+            uses: appleboy/ssh-action@v1.0.0
+            with:
+              host: ${{ secrets.HOST }}
+              username: ${{ secrets.USERNAME }}
+              password: ${{ secrets.PASSWORD }}
+              port: ${{ secrets.PORT }}
+              script: |
+                # Login to DigitalOcean Registry
+                docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} ${echo $REGISTRY}
+
+                # Stop running container
+                docker stop ${echo $CONTAINER_NAME}
+
+                # Remove old container
+                docker rm ${echo $CONTAINER_NAME}
+
+                # Run a new consumer from a new image 
+                docker run -d \
+                --restart always \
+                --publish 5000:80 \
+                --name ${echo $CONTAINER_NAME} \
+                --env-file /root/credentials/${echo $CONTAINER_NAME}/.env
+                $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
