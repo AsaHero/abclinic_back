@@ -7,3 +7,5 @@ CREATE TABLE IF NOT EXISTS services (
     updated_at timestamp without time zone DEFAULT now(),
     CONSTRAINT services_pkey PRIMARY KEY (guid)
 );
+
+ALTER TABLE IF EXISTS services ADD CONSTRAINT "service_service_group_id_fkey" FOREIGN KEY(group_id) REFERENCES service_groups("guid"); 

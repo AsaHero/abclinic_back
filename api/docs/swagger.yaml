@@ -10,11 +10,38 @@ definitions:
       text:
         type: string
     type: object
+  models.Authors:
+    properties:
+      guid:
+        type: string
+      img:
+        items:
+          type: integer
+        type: array
+      name:
+        type: string
+    type: object
+  models.Categories:
+    properties:
+      description:
+        type: string
+      guid:
+        type: string
+      img:
+        type: string
+      title:
+        type: string
+    type: object
   models.Chapter:
     properties:
       guid:
         type: string
       name:
+        type: string
+    type: object
+  models.Contents:
+    properties:
+      url:
         type: string
     type: object
   models.CreateArticleRequest:
@@ -28,9 +55,35 @@ definitions:
       text:
         type: string
     type: object
+  models.CreateCategoryRequest:
+    properties:
+      description:
+        type: string
+      img:
+        type: string
+      title:
+        type: string
+    type: object
   models.CreateChapterRequest:
     properties:
       name:
+        type: string
+    type: object
+  models.CreatePublicationRequest:
+    properties:
+      author_id:
+        type: string
+      img:
+        items:
+          $ref: '#/definitions/models.Contents'
+        type: array
+      text:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      video:
         type: string
     type: object
   models.CreateServiceGroupRequest:
@@ -73,6 +126,27 @@ definitions:
       side:
         type: string
     type: object
+  models.Publications:
+    properties:
+      author:
+        $ref: '#/definitions/models.Authors'
+      category_id:
+        type: string
+      guid:
+        type: string
+      img:
+        items:
+          $ref: '#/definitions/models.Contents'
+        type: array
+      text:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      video:
+        type: string
+    type: object
   models.ResponseError:
     properties:
       code:
@@ -112,6 +186,21 @@ definitions:
       info:
         type: string
       name:
+        type: string
+    type: object
+  models.UpdatePublicationRequest:
+    properties:
+      img:
+        items:
+          $ref: '#/definitions/models.Contents'
+        type: array
+      text:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+      video:
         type: string
     type: object
   models.UpdateServiceRequest:
@@ -392,6 +481,363 @@ paths:
       summary: Update article chapter
       tags:
       - Info
+  /v1/authors:
+    get:
+      consumes:
+      - application/json
+      description: Get authors
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Authors'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get authors
+      tags:
+      - Author
+    post:
+      consumes:
+      - application/json
+      description: Create new author
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create new author
+      tags:
+      - Author
+  /v1/authors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete author
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete author
+      tags:
+      - Author
+    put:
+      consumes:
+      - application/json
+      description: Update author
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update author
+      tags:
+      - Author
+  /v1/blogs:
+    get:
+      consumes:
+      - application/json
+      description: Get publication categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Categories'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get publication categories
+      tags:
+      - Blogs
+    post:
+      consumes:
+      - application/json
+      description: Create new publication category
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create new publication category
+      tags:
+      - Blogs
+  /v1/blogs/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete publication category
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete publication category
+      tags:
+      - Blogs
+    put:
+      consumes:
+      - application/json
+      description: Update publication category
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update publication category
+      tags:
+      - Blogs
+  /v1/blogs/{id}/publication:
+    get:
+      consumes:
+      - application/json
+      description: Get publications by category id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Publications'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get publications
+      tags:
+      - Blogs
+    post:
+      consumes:
+      - application/json
+      description: Create new publication
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreatePublicationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create new publication
+      tags:
+      - Blogs
+  /v1/blogs/publication/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete publication by guid
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete publication
+      tags:
+      - Blogs
+    put:
+      consumes:
+      - application/json
+      description: Update publication
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdatePublicationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update publication
+      tags:
+      - Blogs
   /v1/dentists:
     get:
       consumes:

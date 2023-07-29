@@ -12,4 +12,5 @@ type HandlerArguments struct {
 	DentistsUsecase  usecase.Denstists
 	PriceListUsecase usecase.PriceList
 	InfoUsecase      usecase.InfoUsecase
+	BlogsUsecase     usecase.Blogs
 }
