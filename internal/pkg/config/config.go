@@ -13,6 +13,13 @@ type Config struct {
 		WriteTimeout string
 		IdleTimeout  string
 	}
+
+	CDN struct {
+		AwsAccessKeyID     string
+		AwsSecretAccessKey string
+		AwsEndpoint        string
+		BucketName         string
+	}
 	DB struct {
 		Host     string
 		Port     string
@@ -41,6 +48,12 @@ func NewConfig() *Config {
 	config.Server.ReadTimeout = getEnv("SERVER_READ_TIMEOUT", "10s")
 	config.Server.WriteTimeout = getEnv("SERVER_WRITE_TIMEOUT", "10s")
 	config.Server.IdleTimeout = getEnv("SERVER_IDLE_TIMEOUT", "120s")
+
+	// cdn init
+	config.CDN.AwsAccessKeyID = getEnv("AWS_ACCESS_KEY_ID", "")
+	config.CDN.AwsSecretAccessKey = getEnv("AWS_SECRET_ACCESS_KEY", "")
+	config.CDN.AwsEndpoint = getEnv("AWS_END_POINT", "")
+	config.CDN.BucketName = getEnv("BUCKET_NAME", "")
 
 	// db initialization
 	config.DB.Host = getEnv("POSTGRES_HOST", "localhost")

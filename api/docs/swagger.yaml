@@ -15,9 +15,7 @@ definitions:
       guid:
         type: string
       img:
-        items:
-          type: integer
-        type: array
+        type: string
       name:
         type: string
     type: object
@@ -53,6 +51,13 @@ definitions:
       side:
         type: string
       text:
+        type: string
+    type: object
+  models.CreateAuthorRequest:
+    properties:
+      img:
+        type: string
+      name:
         type: string
     type: object
   models.CreateCategoryRequest:
@@ -124,6 +129,11 @@ definitions:
       priority:
         type: integer
       side:
+        type: string
+    type: object
+  models.Path:
+    properties:
+      filename:
         type: string
     type: object
   models.Publications:
@@ -516,7 +526,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.CreateCategoryRequest'
+          $ref: '#/definitions/models.CreateAuthorRequest'
       produces:
       - application/json
       responses:
@@ -579,7 +589,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.CreateCategoryRequest'
+          $ref: '#/definitions/models.CreateAuthorRequest'
       produces:
       - application/json
       responses:
@@ -926,6 +936,33 @@ paths:
       summary: Update dentist data
       tags:
       - dentists
+  /v1/files:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Path'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      tags:
+      - file
   /v1/services:
     post:
       consumes:

@@ -34,7 +34,7 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 
 	router.Group(func(r chi.Router) {
 
-		// category
+		// authors
 		r.Get("/", handler.GetAuthorsList())
 		r.Post("/", handler.CreateAuthor())
 		r.Put("/{id}", handler.UpdateAuthor())

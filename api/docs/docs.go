@@ -476,7 +476,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCategoryRequest"
+                            "$ref": "#/definitions/models.CreateAuthorRequest"
                         }
                     }
                 ],
@@ -529,7 +529,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateCategoryRequest"
+                            "$ref": "#/definitions/models.CreateAuthorRequest"
                         }
                     }
                 ],
@@ -1093,6 +1093,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/files": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Path"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/services": {
             "post": {
                 "description": "Create new service",
@@ -1526,10 +1568,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "img": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
@@ -1585,6 +1624,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateAuthorRequest": {
+            "type": "object",
+            "properties": {
+                "img": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
@@ -1695,6 +1745,14 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "side": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Path": {
+            "type": "object",
+            "properties": {
+                "filename": {
                     "type": "string"
                 }
             }

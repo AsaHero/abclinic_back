@@ -15,6 +15,11 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.42.23 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+)
+
+require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/go-chi/cors v1.2.1
