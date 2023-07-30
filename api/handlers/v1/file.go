@@ -2,8 +2,10 @@ package v1
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	errorsapi "github.com/AsaHero/abclinic/api/errors"
 	"github.com/AsaHero/abclinic/api/handlers"
@@ -36,6 +38,7 @@ func NewFilesHandler(option handlers.HandlerArguments) http.Handler {
 
 		// file
 		r.Post("/", handler.UploadFile())
+		r.Delete("/", handler.DeleteFile())
 	})
 	return router
 }
@@ -119,7 +122,7 @@ func (handler *filesHandler) UploadFile() http.HandlerFunc {
 		fmt.Printf("%v\n", object)
 		_, err = cdnClient.PutObject(&object)
 		if err != nil {
-			handler.logger.Error("cannot uploed object to cdn", zap.Error(err))
+			handler.logger.Error("cannot upload object to cdn", zap.Error(err))
 			render.Render(w, r, &errorsapi.ErrResponse{
 				Err:            err,
 				HTTPStatusCode: http.StatusInternalServerError,
@@ -129,9 +132,86 @@ func (handler *filesHandler) UploadFile() http.HandlerFunc {
 		}
 
 		path := models.Path{
-			Filename: fmt.Sprintf("%s/main/%s", handler.config.CDN.CdnBaseUrl, file.File.Filename),
+			URL: fmt.Sprintf("%s/main/%s", handler.config.CDN.CdnBaseUrl, file.File.Filename),
 		}
 
 		render.JSON(w, r, path)
+	}
+}
+
+// UploadFile
+// @Router /v1/file [DELETE]
+// @Tags file
+// @Accept json
+// @Produce json
+// @Param body body models.Path true "body"
+// @Success 200 {object} models.Empty
+// @Failure 404 {object} models.ResponseError
+// @Failure 500 {object} models.ResponseError
+func (handler *filesHandler) DeleteFile() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.Path{}
+		if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusBadRequest,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+
+		filename := strings.ReplaceAll(request.URL, handler.config.CDN.CdnBaseUrl+"/"+models.MainFolder+"/", "")
+
+		cdnConfig := &aws.Config{
+			Credentials: credentials.NewStaticCredentials(
+				handler.config.CDN.AwsAccessKeyID,
+				handler.config.CDN.AwsSecretAccessKey,
+				"",
+			),
+			Endpoint: aws.String(handler.config.CDN.AwsEndpoint + "/" + models.MainFolder),
+			Region:   aws.String("us-east-1"),
+		}
+
+		newSession, err := session.NewSession(cdnConfig)
+		if err != nil {
+			handler.logger.Error("cannot create an aws session", zap.Error(err))
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusInternalServerError,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+		cdnClient := s3.New(newSession)
+
+		_, err = cdnClient.DeleteObject(&s3.DeleteObjectInput{
+			Bucket: aws.String(handler.config.CDN.BucketName),
+			Key:    aws.String(filename),
+		})
+		if err != nil {
+			handler.logger.Error("cannot delete object in cdn", zap.Error(err))
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusInternalServerError,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+
+		err = cdnClient.WaitUntilObjectNotExists(&s3.HeadObjectInput{
+			Bucket: aws.String(handler.config.CDN.BucketName),
+			Key:    aws.String(filename),
+		})
+		if err != nil {
+			handler.logger.Error("cannot delete object in cdn", zap.Error(err))
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusInternalServerError,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+
+		render.JSON(w, r, models.Empty{})
 	}
 }

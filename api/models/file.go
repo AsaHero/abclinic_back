@@ -11,5 +11,5 @@ type File struct {
 }
 
 type Path struct {
-	Filename string `json:"filename"`
+	URL string `json:"url"`
 }

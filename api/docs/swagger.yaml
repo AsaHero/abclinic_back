@@ -133,7 +133,7 @@ definitions:
     type: object
   models.Path:
     properties:
-      filename:
+      url:
         type: string
     type: object
   models.Publications:
@@ -937,6 +937,33 @@ paths:
       tags:
       - dentists
   /v1/file:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.Path'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      tags:
+      - file
     post:
       consumes:
       - multipart/form-data
