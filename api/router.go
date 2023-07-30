@@ -56,7 +56,7 @@ func NewRouter(args RouteArguments) http.Handler {
 		r.Mount("/articles", v1.NewInfoHandler(handlersArgs))
 		r.Mount("/blogs", v1.NewBlogsHandler(handlersArgs))
 		r.Mount("/authors", v1.NewAuthorsHandler(handlersArgs))
-		r.Mount("/file", nil)
+		r.Mount("/file", v1.NewFilesHandler(handlersArgs))
 	})
 
 	// declare swagger api route

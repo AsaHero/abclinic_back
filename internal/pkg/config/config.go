@@ -19,6 +19,7 @@ type Config struct {
 		AwsSecretAccessKey string
 		AwsEndpoint        string
 		BucketName         string
+		CdnBaseUrl         string
 	}
 	DB struct {
 		Host     string
@@ -54,6 +55,7 @@ func NewConfig() *Config {
 	config.CDN.AwsSecretAccessKey = getEnv("AWS_SECRET_ACCESS_KEY", "")
 	config.CDN.AwsEndpoint = getEnv("AWS_END_POINT", "")
 	config.CDN.BucketName = getEnv("BUCKET_NAME", "")
+	config.CDN.CdnBaseUrl = getEnv("CDN_BASE_URL", "")
 
 	// db initialization
 	config.DB.Host = getEnv("POSTGRES_HOST", "localhost")

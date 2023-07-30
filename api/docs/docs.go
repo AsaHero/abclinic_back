@@ -1093,7 +1093,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/files": {
+        "/v1/file": {
             "post": {
                 "consumes": [
                     "multipart/form-data"

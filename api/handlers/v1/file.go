@@ -3,9 +3,7 @@ package v1
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 
 	errorsapi "github.com/AsaHero/abclinic/api/errors"
 	"github.com/AsaHero/abclinic/api/handlers"
@@ -26,7 +24,7 @@ type filesHandler struct {
 	config *config.Config
 }
 
-func NewFilesHandler(option *handlers.HandlerArguments) http.Handler {
+func NewFilesHandler(option handlers.HandlerArguments) http.Handler {
 	handler := filesHandler{
 		logger: option.Logger,
 		config: option.Config,
@@ -43,7 +41,7 @@ func NewFilesHandler(option *handlers.HandlerArguments) http.Handler {
 }
 
 // UploadFile
-// @Router /v1/files [POST]
+// @Router /v1/file [POST]
 // @Tags file
 // @Accept multipart/form-data
 // @Produce json
@@ -70,7 +68,6 @@ func (handler *filesHandler) UploadFile() http.HandlerFunc {
 
 		fName := uuid.New()
 		file.File.Filename = fmt.Sprintf("%s_%s", fName.String(), file.File.Filename)
-		dst, _ := os.Getwd()
 
 		src, err := file.File.Open()
 		if err != nil {
@@ -84,69 +81,56 @@ func (handler *filesHandler) UploadFile() http.HandlerFunc {
 		}
 		defer src.Close()
 
-		out, err := os.Create(dst + "/" + file.File.Filename)
-		if err != nil {
-			handler.logger.Error("cannot crate new file", zap.Error(err))
-			render.Render(w, r, &errorsapi.ErrResponse{
-				Err:            err,
-				HTTPStatusCode: http.StatusInternalServerError,
-				ErrorText:      err.Error(),
-			})
-			return
-		}
-		defer out.Close()
-
-		_, err = io.Copy(out, src)
-		if err != nil {
-			handler.logger.Error("cannot copy file", zap.Error(err))
-			render.Render(w, r, &errorsapi.ErrResponse{
-				Err:            err,
-				HTTPStatusCode: http.StatusInternalServerError,
-				ErrorText:      err.Error(),
-			})
-			return
-		}
-
 		cdnConfig := &aws.Config{
 			Credentials: credentials.NewStaticCredentials(
 				handler.config.CDN.AwsAccessKeyID,
 				handler.config.CDN.AwsSecretAccessKey,
 				"",
 			),
-			Endpoint: aws.String(handler.config.CDN.AwsEndpoint),
+			Endpoint: aws.String(handler.config.CDN.AwsEndpoint + "/" + models.MainFolder),
 			Region:   aws.String("us-east-1"),
 		}
 
-		newSession := session.New(cdnConfig)
+		newSession, err := session.NewSession(cdnConfig)
+		if err != nil {
+			handler.logger.Error("cannot create an aws session", zap.Error(err))
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusInternalServerError,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
 		cdnClient := s3.New(newSession)
 
-		// Get file size and read the file content into a buffer
-		fileInfo, _ := out.Stat()
-		var size int64 = fileInfo.Size()
-		buffer := make([]byte, size)
-		out.Read(buffer)
+		buffer := make([]byte, file.File.Size)
+		src.Read(buffer)
 
 		object := s3.PutObjectInput{
 			Bucket:             aws.String(handler.config.CDN.BucketName),
 			Key:                aws.String(file.File.Filename),
 			Body:               bytes.NewReader(buffer),
-			ContentLength:      aws.Int64(size),
+			ContentLength:      aws.Int64(file.File.Size),
 			ContentType:        aws.String(http.DetectContentType(buffer)),
-			ContentDisposition: aws.String("attachment"),
+			ContentDisposition: aws.String("inline"),
 			ACL:                aws.String("public-read"),
 		}
 
 		fmt.Printf("%v\n", object)
 		_, err = cdnClient.PutObject(&object)
 		if err != nil {
-			fmt.Println(err.Error())
+			handler.logger.Error("cannot uploed object to cdn", zap.Error(err))
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusInternalServerError,
+				ErrorText:      err.Error(),
+			})
+			return
 		}
 
 		path := models.Path{
-			Filename: fmt.Sprintf("%s/%s/%s", cdnClient.Endpoint, handler.config.CDN.BucketName, file.File.Filename),
+			Filename: fmt.Sprintf("%s/main/%s", handler.config.CDN.CdnBaseUrl, file.File.Filename),
 		}
-
-		os.Remove(dst + "/" + file.File.Filename)
 
 		render.JSON(w, r, path)
 	}
