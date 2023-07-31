@@ -55,11 +55,15 @@ func (a *App) Run() error {
 	serviceGroupdRepo := postgresql.NewServiceGroupsRepo(a.DB)
 	artcileRepo := postgresql.NewArticlesRepo(a.DB)
 	chapterRepo := postgresql.NewChaptersRepo(a.DB)
+	authorsRepo := postgresql.NewAuthorsRepo(a.DB)
+	categoriesRepo := postgresql.NewCategoriesRepo(a.DB)
+	publicationsRepo := postgresql.NewPublicationsRepo(a.DB)
 
 	// usecase init
 	dentistsUsecase := usecase.NewDentistsUsecase(contextTimeout, dentistsRepo)
 	priceListUsecase := usecase.NewPriceListUsecase(contextTimeout, serviceRepo, serviceGroupdRepo)
 	infoUsecase := usecase.NewinfoUsecase(contextTimeout, artcileRepo, chapterRepo)
+	blogsUsecase := usecase.NewBlogsUsecase(contextTimeout, publicationsRepo, categoriesRepo, authorsRepo)
 
 	routerArgs := api.RouteArguments{
 		Config:           a.Config,
@@ -67,6 +71,7 @@ func (a *App) Run() error {
 		DentistsUsecase:  dentistsUsecase,
 		PriceListUsecase: priceListUsecase,
 		InfoUsecase:      infoUsecase,
+		BlogsUsecase:     blogsUsecase,
 	}
 
 	// router init
