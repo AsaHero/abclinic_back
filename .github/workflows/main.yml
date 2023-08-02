@@ -50,7 +50,9 @@ jobs:
                   REGISTRY="registry.digitalocean.com/abclinic"
                   IMAGE_NAME="abclinic"
                   CONTAINER_NAME="abclinic-backend"
-                  TAG="$(echo $GITHUB_SHA | head -c7)"
+                  
+                  # Get the short SHA of the latest commit
+                  TAG="$(git rev-parse --short HEAD)"      
 
                   # Print out the variables to verify them
                   echo "Registry: $REGISTRY"
