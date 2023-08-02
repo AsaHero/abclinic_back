@@ -37,7 +37,7 @@ jobs:
     deploy:
         runs-on: ubuntu-22.04  
         needs: build
-
+            
         steps:
             - name: Deploy to DigitalOcean droplet via SSH action
               uses: appleboy/ssh-action@v1.0.0
@@ -47,22 +47,28 @@ jobs:
                 password: ${{ secrets.PASSWORD }}
                 port: ${{ secrets.PORT }}
                 script: |
+                  REGISTRY="registry.digitalocean.com/abclinic"
+                  IMAGE_NAME="abclinic"
+                  CONTAINER_NAME="abclinic-backend"
+                  TAG="$(echo $GITHUB_SHA | head -c7)"
+      
                   # Login to DigitalOcean Registry
-                  echo "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" | docker login -u oauth2 --password-stdin $(echo $REGISTRY)
-
-                  # Stop running container
-                  docker stop $(echo $CONTAINER_NAME)
-
-                  # Remove old container
-                  docker rm $(echo $CONTAINER_NAME)
-
+                  echo "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" | docker login -u oauth2 --password-stdin $REGISTRY
+      
+                  # Stop running container if exists
+                  docker stop $CONTAINER_NAME || true
+      
+                  # Remove old container if exists
+                  docker rm $CONTAINER_NAME || true
+      
                   # Pull the new image
-                  docker pull $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
-
+                  docker pull $REGISTRY/$IMAGE_NAME:$TAG
+      
                   # Run a new container from the new image
                   docker run -d \
                   --restart always \
                   --publish 5000:80 \
-                  --name $(echo $CONTAINER_NAME) \
-                  --env-file ~/credentials/$(echo $CONTAINER_NAME)/.env \
-                  $(echo $REGISTRY)/$(echo $IMAGE_NAME):$(echo $GITHUB_SHA | head -c7)
+                  --name $CONTAINER_NAME \
+                  --env-file ~/credentials/$CONTAINER_NAME/.env \
+                  $REGISTRY/$IMAGE_NAME:$TAG
+            
