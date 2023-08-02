@@ -53,7 +53,7 @@ jobs:
                   TAG="$(echo $GITHUB_SHA | head -c7)"
       
                   # Login to DigitalOcean Registry
-                  echo "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" | docker login -u oauth2 --password-stdin $REGISTRY
+                  docker login  -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} $REGISTRY
       
                   # Stop running container if exists
                   docker stop $CONTAINER_NAME || true
