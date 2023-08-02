@@ -81,6 +81,8 @@ func (h authorsHandler) GetAuthorsList() http.HandlerFunc {
 				Img:  imgInBase64,
 			})
 		}
+
+		render.JSON(w, r, response)
 	}
 }
 
@@ -112,9 +114,9 @@ func (h authorsHandler) CreateAuthor() http.HandlerFunc {
 		binaryImg, err := base64.StdEncoding.DecodeString(request.Img)
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
-				Err:            err,
+				Err:            errors.New("cannor decode content sent by 'img'"),
 				HTTPStatusCode: http.StatusBadRequest,
-				ErrorText:      err.Error(),
+				ErrorText:      "cannor decode content sent by 'img''",
 			})
 			return
 		}
@@ -132,19 +134,9 @@ func (h authorsHandler) CreateAuthor() http.HandlerFunc {
 			return
 		}
 
-		imgInBinary, err := base64.StdEncoding.DecodeString(request.Img)
-		if err != nil {
-			render.Render(w, r, &errorsapi.ErrResponse{
-				Err:            errors.New("cannor decode content sent by 'img'"),
-				HTTPStatusCode: http.StatusBadRequest,
-				ErrorText:      "cannor decode content sent by 'img''",
-			})
-			return
-		}
-
 		guid, err := h.blogsUsecase.CreateAuthors(ctx, &entity.Authors{
 			Name: request.Name,
-			Img:  imgInBinary,
+			Img:  binaryImg,
 		})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
@@ -194,9 +186,9 @@ func (h authorsHandler) UpdateAuthor() http.HandlerFunc {
 		binaryImg, err := base64.StdEncoding.DecodeString(request.Img)
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
-				Err:            err,
+				Err:            errors.New("cannor decode content sent by 'img'"),
 				HTTPStatusCode: http.StatusBadRequest,
-				ErrorText:      err.Error(),
+				ErrorText:      "cannor decode content sent by 'img''",
 			})
 			return
 		}
@@ -212,20 +204,10 @@ func (h authorsHandler) UpdateAuthor() http.HandlerFunc {
 			return
 		}
 
-		imgInBinary, err := base64.StdEncoding.DecodeString(request.Img)
-		if err != nil {
-			render.Render(w, r, &errorsapi.ErrResponse{
-				Err:            errors.New("cannor decode content sent by 'img'"),
-				HTTPStatusCode: http.StatusBadRequest,
-				ErrorText:      "cannor decode content sent by 'img''",
-			})
-			return
-		}
-
 		err = h.blogsUsecase.UpdateAuthors(ctx, &entity.Authors{
 			GUID: guid,
 			Name: request.Name,
-			Img:  imgInBinary,
+			Img:  binaryImg,
 		})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{
