@@ -51,6 +51,12 @@ jobs:
                   IMAGE_NAME="abclinic"
                   CONTAINER_NAME="abclinic-backend"
                   TAG="$(echo $GITHUB_SHA | head -c7)"
+
+                  # Print out the variables to verify them
+                  echo "Registry: $REGISTRY"
+                  echo "Image Name: $IMAGE_NAME"
+                  echo "Container Name: $CONTAINER_NAME"
+                  echo "Tag: $TAG"
       
                   # Login to DigitalOcean Registry
                   docker login  -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} $REGISTRY
@@ -60,15 +66,21 @@ jobs:
       
                   # Remove old container if exists
                   docker rm $CONTAINER_NAME || true
+
+                  # Pull the new image
+                  FULL_IMAGE_NAME="$REGISTRY/$IMAGE_NAME:$TAG"
+                  echo "Pulling image: $FULL_IMAGE_NAME"
+                  docker pull $FULL_IMAGE_NAME
       
                   # Pull the new image
                   docker pull $REGISTRY/$IMAGE_NAME:$TAG
       
                   # Run a new container from the new image
+                  echo "Running image: $FULL_IMAGE_NAME"
                   docker run -d \
                   --restart always \
                   --publish 5000:80 \
                   --name $CONTAINER_NAME \
-                  --env-file /root/credentials/abclinic-backend/.env \
-                  $REGISTRY/$IMAGE_NAME:$TAG
+                  --env-file /root/credentials/$CONTAINER_NAME/.env \
+                  $FULL_IMAGE_NAME
             
