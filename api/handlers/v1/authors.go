@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	errorsapi "github.com/AsaHero/abclinic/api/errors"
@@ -108,7 +109,19 @@ func (h authorsHandler) CreateAuthor() http.HandlerFunc {
 			return
 		}
 
-		mimeType := http.DetectContentType([]byte(request.Img))
+		binaryImg, err := base64.StdEncoding.DecodeString(request.Img)
+		if err != nil {
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusBadRequest,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+
+		mimeType := http.DetectContentType(binaryImg)
+
+		fmt.Println(mimeType)
 
 		if mimeType != "image/jpeg" && mimeType != "image/png" {
 			render.Render(w, r, &errorsapi.ErrResponse{
@@ -178,7 +191,17 @@ func (h authorsHandler) UpdateAuthor() http.HandlerFunc {
 			return
 		}
 
-		mimeType := http.DetectContentType([]byte(request.Img))
+		binaryImg, err := base64.StdEncoding.DecodeString(request.Img)
+		if err != nil {
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusBadRequest,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+
+		mimeType := http.DetectContentType(binaryImg)
 
 		if mimeType != "image/jpeg" && mimeType != "image/png" {
 			render.Render(w, r, &errorsapi.ErrResponse{
