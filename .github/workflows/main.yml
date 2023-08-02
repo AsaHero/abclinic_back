@@ -39,9 +39,13 @@ jobs:
         needs: build
             
         steps:
-            - name: Checkout master
+            - name: Checkout code
               uses: actions/checkout@v3
-
+            
+            - name: Get Git SHA
+              id: get_sha
+              run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+      
             - name: Deploy to DigitalOcean droplet via SSH action
               uses: appleboy/ssh-action@v1.0.0
               with:
@@ -53,9 +57,7 @@ jobs:
                   REGISTRY="registry.digitalocean.com/abclinic"
                   IMAGE_NAME="abclinic"
                   CONTAINER_NAME="abclinic-backend"
-                  
-                  # Get the short SHA of the latest commit
-                  TAG="$(git rev-parse --short HEAD)"      
+                  TAG="${{ steps.get_sha.outputs.sha }}"    
 
                   # Print out the variables to verify them
                   echo "Registry: $REGISTRY"
