@@ -69,6 +69,6 @@ jobs:
                   --restart always \
                   --publish 5000:80 \
                   --name $CONTAINER_NAME \
-                  --env-file ~/credentials/$CONTAINER_NAME/.env \
+                  --env-file /root/credentials/abclinic-backend/.env \
                   $REGISTRY/$IMAGE_NAME:$TAG
             
