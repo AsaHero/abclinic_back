@@ -105,11 +105,37 @@ definitions:
       price:
         type: number
     type: object
+  models.CreateUserRequest:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    type: object
   models.Empty:
     type: object
   models.GUIDResponse:
     properties:
       guid:
+        type: string
+    type: object
+  models.GetAllUsersResponse:
+    properties:
+      firstname:
+        type: string
+      guid:
+        type: string
+      lastname:
+        type: string
+      role:
+        type: string
+      username:
         type: string
     type: object
   models.GetDentistsListResponse:
@@ -129,6 +155,27 @@ definitions:
       priority:
         type: integer
       side:
+        type: string
+    type: object
+  models.GetRolesResponse:
+    properties:
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
+  models.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.LoginResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
         type: string
     type: object
   models.Path:
@@ -219,6 +266,19 @@ definitions:
         type: string
       price:
         type: number
+    type: object
+  models.UpdateUserRequest:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
     type: object
 info:
   contact: {}
@@ -990,6 +1050,200 @@ paths:
             $ref: '#/definitions/models.ResponseError'
       tags:
       - file
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.LoginResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      tags:
+      - Auth
+  /v1/rbac/roles:
+    get:
+      consumes:
+      - application/json
+      description: Get roles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GetRolesResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get roles
+      tags:
+      - Rbac
+  /v1/rbac/user:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete user
+      tags:
+      - Rbac
+    get:
+      consumes:
+      - application/json
+      description: Get user info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GetRolesResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get user info
+      tags:
+      - Rbac
+    post:
+      consumes:
+      - application/json
+      description: Create user info
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.GUIDResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Create user
+      tags:
+      - Rbac
+    put:
+      consumes:
+      - application/json
+      description: Update user info
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update user info
+      tags:
+      - Rbac
+  /v1/rbac/users:
+    get:
+      consumes:
+      - application/json
+      description: Get all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.GetAllUsersResponse'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get all users
+      tags:
+      - Rbac
   /v1/services:
     post:
       consumes:
