@@ -67,6 +67,7 @@ func NewRouter(args RouteArguments) http.Handler {
 		r.Mount("/blogs", v1.NewBlogsHandler(handlersArgs))
 		r.Mount("/authors", v1.NewAuthorsHandler(handlersArgs))
 		r.Mount("/file", v1.NewFilesHandler(handlersArgs))
+		r.Mount("/rbac", v1.NewRbacHandler(handlersArgs))
 	})
 
 	// declare swagger api route
