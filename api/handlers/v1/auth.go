@@ -37,7 +37,7 @@ func NewAuthHandler(option handlers.HandlerArguments) http.Handler {
 	router.Group(func(r chi.Router) {
 		// public apis
 		r.Post("/login", handler.Login())
-		r.Post("/reshresh", handler.RefreshToken())
+		r.Post("/refresh", handler.RefreshToken())
 
 	})
 	return router
@@ -117,7 +117,7 @@ func (h authHandler) Login() http.HandlerFunc {
 }
 
 // RefreshToken
-// @Router /v1/reshresh [POST]
+// @Router /v1/refresh [POST]
 // @Tags Auth
 // @Accept json
 // @Produce json
