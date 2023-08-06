@@ -116,8 +116,8 @@ func (h authHandler) Login() http.HandlerFunc {
 	}
 }
 
-// Login
-// @Router /v1/login [POST]
+// RefreshToken
+// @Router /v1/reshresh [POST]
 // @Tags Auth
 // @Accept json
 // @Produce json
