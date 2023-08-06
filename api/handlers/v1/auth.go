@@ -27,9 +27,10 @@ type authHandler struct {
 
 func NewAuthHandler(option handlers.HandlerArguments) http.Handler {
 	handler := authHandler{
-		rbacUsecase: option.RbacUsecase,
-		logger:      option.Logger,
-		config:      option.Config,
+		rbacUsecase:          option.RbacUsecase,
+		reshreshTokenUsecase: option.RefreshTokenUsecase,
+		logger:               option.Logger,
+		config:               option.Config,
 	}
 
 	router := chi.NewRouter()
