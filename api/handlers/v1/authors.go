@@ -9,6 +9,7 @@ import (
 
 	errorsapi "github.com/AsaHero/abclinic/api/errors"
 	"github.com/AsaHero/abclinic/api/handlers"
+	"github.com/AsaHero/abclinic/api/middleware"
 	"github.com/AsaHero/abclinic/api/models"
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/pkg/config"
@@ -65,7 +66,7 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-
+		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		// authors
 		r.Get("/", handler.GetAuthorsList())
 		r.Post("/", handler.CreateAuthor())

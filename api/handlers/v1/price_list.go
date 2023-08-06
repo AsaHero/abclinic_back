@@ -6,6 +6,7 @@ import (
 
 	errorsapi "github.com/AsaHero/abclinic/api/errors"
 	"github.com/AsaHero/abclinic/api/handlers"
+	"github.com/AsaHero/abclinic/api/middleware"
 	"github.com/AsaHero/abclinic/api/models"
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/pkg/config"
@@ -74,6 +75,7 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
+		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		r.Get("/{group_id}", handler.GetPriceListByGroup())
 		r.Post("/", handler.CreateService())
 		r.Put("/{id}", handler.UpdateService())

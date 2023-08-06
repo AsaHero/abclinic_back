@@ -10,6 +10,7 @@ import (
 	_ "github.com/AsaHero/abclinic/api/docs"
 	"github.com/AsaHero/abclinic/api/handlers"
 	v1 "github.com/AsaHero/abclinic/api/handlers/v1"
+	"github.com/AsaHero/abclinic/api/middleware"
 	"github.com/AsaHero/abclinic/internal/pkg/config"
 	"github.com/AsaHero/abclinic/internal/usecase"
 	"github.com/go-chi/chi/v5"
@@ -58,6 +59,7 @@ func NewRouter(args RouteArguments) http.Handler {
 	}))
 
 	router.Route("/v1", func(r chi.Router) {
+		r.Use(middleware.AuthContext(args.Config.Token.Secret))
 		r.Mount("/", v1.NewAuthHandler(handlersArgs))
 		r.Mount("/dentists", v1.NewDentistsHandler(handlersArgs))
 		r.Mount("/services", v1.NewPriceListHandler(handlersArgs))
