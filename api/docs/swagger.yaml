@@ -204,6 +204,18 @@ definitions:
       video:
         type: string
     type: object
+  models.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  models.RefreshTokenResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
   models.ResponseError:
     properties:
       code:
@@ -1060,14 +1072,14 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.LoginRequest'
+          $ref: '#/definitions/models.RefreshTokenRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.LoginResponse'
+            $ref: '#/definitions/models.RefreshTokenResponse'
         "404":
           description: Not Found
           schema:

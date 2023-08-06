@@ -116,6 +116,15 @@ func (h authHandler) Login() http.HandlerFunc {
 	}
 }
 
+// Login
+// @Router /v1/login [POST]
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param body body models.RefreshTokenRequest true "body"
+// @Success 200 {object} models.RefreshTokenResponse
+// @Failure 404 {object} models.ResponseError
+// @Failure 500 {object} models.ResponseError
 func (h authHandler) RefreshToken() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		requestBody := models.RefreshTokenRequest{}

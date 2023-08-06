@@ -68,6 +68,7 @@ func NewFilesHandler(option handlers.HandlerArguments) http.Handler {
 }
 
 // UploadFile
+// @Security ApiKeyAuth
 // @Router /v1/file [POST]
 // @Tags file
 // @Accept multipart/form-data
@@ -164,6 +165,7 @@ func (handler *filesHandler) UploadFile() http.HandlerFunc {
 }
 
 // UploadFile
+// @Security ApiKeyAuth
 // @Router /v1/file [DELETE]
 // @Tags file
 // @Accept json

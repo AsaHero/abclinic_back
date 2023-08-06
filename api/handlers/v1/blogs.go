@@ -89,6 +89,7 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetCategoriesList
+// @Security ApiKeyAuth
 // @Router /v1/blogs/{id}/publication [GET]
 // @Summary Get publications
 // @Description Get publications by category id
@@ -155,6 +156,7 @@ func (h blogsHandler) GetPublicationsList() http.HandlerFunc {
 }
 
 // CreatePublication
+// @Security ApiKeyAuth
 // @Router /v1/blogs/{id}/publication [POST]
 // @Summary Create new publication
 // @Description Create new publication
@@ -224,6 +226,7 @@ func (h blogsHandler) CreatePublication() http.HandlerFunc {
 }
 
 // UpdatePublication
+// @Security ApiKeyAuth
 // @Router /v1/blogs/publication/{id} [PUT]
 // @Summary Update publication
 // @Description Update publication
@@ -288,6 +291,7 @@ func (h blogsHandler) UpdatePublication() http.HandlerFunc {
 }
 
 // DeletePublication
+// @Security ApiKeyAuth
 // @Router /v1/blogs/publication/{id} [DELETE]
 // @Summary Delete publication
 // @Description Delete publication by guid
@@ -319,6 +323,7 @@ func (h blogsHandler) DeletePublication() http.HandlerFunc {
 }
 
 // GetCategoriesList
+// @Security ApiKeyAuth
 // @Router /v1/blogs [GET]
 // @Summary Get publication categories
 // @Description Get publication categories
@@ -358,6 +363,7 @@ func (h blogsHandler) GetCategoriesList() http.HandlerFunc {
 }
 
 // CreateCategory
+// @Security ApiKeyAuth
 // @Router /v1/blogs [POST]
 // @Summary Create new publication category
 // @Description Create new publication category
@@ -405,6 +411,7 @@ func (h blogsHandler) CreateCategory() http.HandlerFunc {
 }
 
 // UpdateCategory
+// @Security ApiKeyAuth
 // @Router /v1/blogs/{id} [PUT]
 // @Summary Update publication category
 // @Description Update publication category
@@ -453,6 +460,7 @@ func (h blogsHandler) UpdateCategory() http.HandlerFunc {
 }
 
 // DeleteChapter
+// @Security ApiKeyAuth
 // @Router /v1/blogs/{id} [DELETE]
 // @Summary Delete publication category
 // @Description Delete publication category

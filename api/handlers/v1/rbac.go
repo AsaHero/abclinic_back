@@ -79,6 +79,7 @@ func NewRbacHandler(options handlers.HandlerArguments) http.Handler {
 }
 
 // GetRoles
+// @Security ApiKeyAuth
 // @Router /v1/rbac/roles [GET]
 // @Summary Get roles
 // @Description Get roles
@@ -104,6 +105,7 @@ func (h rbacHandler) GetRoles() http.HandlerFunc {
 }
 
 // GetUserInfo
+// @Security ApiKeyAuth
 // @Router /v1/rbac/user [GET]
 // @Summary Get user info
 // @Description Get user info
@@ -148,6 +150,7 @@ func (h rbacHandler) GetUserInfo() http.HandlerFunc {
 }
 
 // CreateUser
+// @Security ApiKeyAuth
 // @Router /v1/rbac/user [POST]
 // @Summary Create user
 // @Description Create user info
@@ -196,6 +199,7 @@ func (h rbacHandler) CreateUser() http.HandlerFunc {
 }
 
 // UpdateUser
+// @Security ApiKeyAuth
 // @Router /v1/rbac/user [PUT]
 // @Summary Update user info
 // @Description Update user info
@@ -244,6 +248,7 @@ func (h rbacHandler) UpdateUser() http.HandlerFunc {
 }
 
 // GetAllUsers
+// @Security ApiKeyAuth
 // @Router /v1/rbac/users [GET]
 // @Summary Get all users
 // @Description Get all users
@@ -283,6 +288,7 @@ func (h rbacHandler) GetAllUsers() http.HandlerFunc {
 }
 
 // UpdateUser
+// @Security ApiKeyAuth
 // @Router /v1/rbac/user [DELETE]
 // @Summary Delete user
 // @Description Delete user

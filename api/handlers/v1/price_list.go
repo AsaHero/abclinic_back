@@ -89,6 +89,7 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetPriceListByGroup
+// @Security ApiKeyAuth
 // @Router /v1/services/{group_id} [GET]
 // @Summary Get services
 // @Description Get servivies by group id
@@ -131,6 +132,7 @@ func (h priceListHandler) GetPriceListByGroup() http.HandlerFunc {
 }
 
 // CreateService
+// @Security ApiKeyAuth
 // @Router /v1/services [POST]
 // @Summary Create new service
 // @Description Create new service
@@ -180,6 +182,7 @@ func (h priceListHandler) CreateService() http.HandlerFunc {
 }
 
 // UpdateService
+// @Security ApiKeyAuth
 // @Router /v1/services/{id} [PUT]
 // @Summary Update service
 // @Description Update service
@@ -227,6 +230,7 @@ func (h priceListHandler) UpdateService() http.HandlerFunc {
 }
 
 // DeleteService
+// @Security ApiKeyAuth
 // @Router /v1/services/{id} [DELETE]
 // @Summary Delete services
 // @Description Delete servivies by guid
@@ -258,6 +262,7 @@ func (h priceListHandler) DeleteService() http.HandlerFunc {
 }
 
 // GetGroupList
+// @Security ApiKeyAuth
 // @Router /v1/services/groups [GET]
 // @Summary Get services groups
 // @Description Get servivies groups
@@ -295,6 +300,7 @@ func (h priceListHandler) GetGroupList() http.HandlerFunc {
 }
 
 // GetGroup
+// @Security ApiKeyAuth
 // @Router /v1/services/groups/{id} [GET]
 // @Summary Get services group
 // @Description Get servivies group
@@ -331,6 +337,7 @@ func (h priceListHandler) GetGroup() http.HandlerFunc {
 }
 
 // CreateService
+// @Security ApiKeyAuth
 // @Router /v1/services/groups [POST]
 // @Summary Create new service group
 // @Description Create new service group
@@ -376,6 +383,7 @@ func (h priceListHandler) CreateServiceGroup() http.HandlerFunc {
 }
 
 // UpdateServiceGroup
+// @Security ApiKeyAuth
 // @Router /v1/services/groups/{id} [PUT]
 // @Summary Update service group
 // @Description Update service group
@@ -422,6 +430,7 @@ func (h priceListHandler) UpdateServiceGroup() http.HandlerFunc {
 }
 
 // DeleteServiceGroups
+// @Security ApiKeyAuth
 // @Router /v1/services/groups/{id} [DELETE]
 // @Summary Delete services group
 // @Description Delete servivies group

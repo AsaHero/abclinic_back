@@ -89,6 +89,7 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetArticlesByChapter
+// @Security ApiKeyAuth
 // @Router /v1/articles/{id} [GET]
 // @Summary Get articles
 // @Description Get articles by chapter id
@@ -131,6 +132,7 @@ func (h infoHandler) GetArticlesByChapter() http.HandlerFunc {
 }
 
 // CreateArticle
+// @Security ApiKeyAuth
 // @Router /v1/articles [POST]
 // @Summary Create new article
 // @Description Create new article
@@ -180,6 +182,7 @@ func (h infoHandler) CreateArticle() http.HandlerFunc {
 }
 
 // UpdateArticle
+// @Security ApiKeyAuth
 // @Router /v1/articles/{id} [PUT]
 // @Summary Update article
 // @Description Update article
@@ -227,6 +230,7 @@ func (h infoHandler) UpdateArticle() http.HandlerFunc {
 }
 
 // DeleteArticle
+// @Security ApiKeyAuth
 // @Router /v1/articles/{id} [DELETE]
 // @Summary Delete article
 // @Description Delete article by guid
@@ -258,6 +262,7 @@ func (h infoHandler) DeleteArticle() http.HandlerFunc {
 }
 
 // GetChapterList
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter [GET]
 // @Summary Get article chapters
 // @Description Get article chapters
@@ -295,6 +300,7 @@ func (h infoHandler) GetChapterList() http.HandlerFunc {
 }
 
 // GetChpater
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter/{id} [GET]
 // @Summary Get article chapter
 // @Description Get article chapter
@@ -331,6 +337,7 @@ func (h infoHandler) GetChpater() http.HandlerFunc {
 }
 
 // CreateChapter
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter [POST]
 // @Summary Create new article chapter
 // @Description Create new article chapter
@@ -376,6 +383,7 @@ func (h infoHandler) CreateChapter() http.HandlerFunc {
 }
 
 // UpdateChapter
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter/{id} [PUT]
 // @Summary Update article chapter
 // @Description Update articles chapter
@@ -422,6 +430,7 @@ func (h infoHandler) UpdateChapter() http.HandlerFunc {
 }
 
 // DeleteChapter
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter/{id} [DELETE]
 // @Summary Delete article cahpter
 // @Description Delete article chapter

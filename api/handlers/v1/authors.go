@@ -77,6 +77,7 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetCategoriesList
+// @Security ApiKeyAuth
 // @Router /v1/authors [GET]
 // @Summary Get authors
 // @Description Get authors
@@ -118,6 +119,7 @@ func (h authorsHandler) GetAuthorsList() http.HandlerFunc {
 }
 
 // CreateAuthor
+// @Security ApiKeyAuth
 // @Router /v1/authors [POST]
 // @Summary Create new author
 // @Description Create new author
@@ -187,6 +189,7 @@ func (h authorsHandler) CreateAuthor() http.HandlerFunc {
 }
 
 // UpdateAuthor
+// @Security ApiKeyAuth
 // @Router /v1/authors/{id} [PUT]
 // @Summary Update author
 // @Description Update author
@@ -255,6 +258,7 @@ func (h authorsHandler) UpdateAuthor() http.HandlerFunc {
 }
 
 // DeleteChapter
+// @Security ApiKeyAuth
 // @Router /v1/authors/{id} [DELETE]
 // @Summary Delete author
 // @Description Delete author
