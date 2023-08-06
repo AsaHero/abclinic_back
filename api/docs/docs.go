@@ -2361,9 +2361,6 @@ const docTemplate = `{
                 "info": {
                     "type": "string"
                 },
-                "language": {
-                    "type": "string"
-                },
                 "name": {
                     "type": "string"
                 },

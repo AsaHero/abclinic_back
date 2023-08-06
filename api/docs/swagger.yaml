@@ -148,8 +148,6 @@ definitions:
         type: string
       info:
         type: string
-      language:
-        type: string
       name:
         type: string
       priority:

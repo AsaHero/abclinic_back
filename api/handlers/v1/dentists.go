@@ -113,12 +113,11 @@ func (h dentistsHandler) GetDentist() http.HandlerFunc {
 		response := models.GetDentistsListResponse{
 			ID:        dentist.ID,
 			CloneName: dentist.CloneName,
+			Img:       dentist.URL,
+			Priority:  dentist.Priority,
+			Side:      dentist.Side,
 			Name:      dentist.Name,
 			Info:      dentist.Info,
-			Img:       dentist.URL,
-			Side:      dentist.Side,
-			Priority:  dentist.Priority,
-			Language:  dentist.Language,
 		}
 
 		render.JSON(w, r, response)
