@@ -1632,7 +1632,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/reshresh": {
+        "/v1/refresh": {
             "post": {
                 "consumes": [
                     "application/json"

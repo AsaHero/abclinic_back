@@ -1320,7 +1320,7 @@ paths:
       summary: Get all users
       tags:
       - Rbac
-  /v1/reshresh:
+  /v1/refresh:
     post:
       consumes:
       - application/json
