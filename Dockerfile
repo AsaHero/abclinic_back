@@ -12,6 +12,8 @@ FROM alpine:latest
 WORKDIR /root/
 
 COPY --from=builder /github.com/AsaHero/abclinic/bin/abclinic .
+COPY --from=builder /github.com/AsaHero/abclinic/bin/abclinic/auth_model.conf .
+COPY --from=builder /github.com/AsaHero/abclinic/bin/abclinic/policy.csv .
 
 EXPOSE 80
 
