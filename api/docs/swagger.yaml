@@ -1124,14 +1124,14 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.RefreshTokenRequest'
+          $ref: '#/definitions/models.LoginRequest'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.RefreshTokenResponse'
+            $ref: '#/definitions/models.LoginResponse'
         "404":
           description: Not Found
           schema:
@@ -1320,6 +1320,34 @@ paths:
       summary: Get all users
       tags:
       - Rbac
+  /v1/reshresh:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.RefreshTokenResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      tags:
+      - Auth
   /v1/services:
     post:
       consumes:
