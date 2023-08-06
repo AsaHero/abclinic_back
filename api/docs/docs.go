@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/v1/articles": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new article",
                 "consumes": [
                     "application/json"
@@ -63,6 +68,11 @@ const docTemplate = `{
         },
         "/v1/articles/chapter": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get article chapters",
                 "consumes": [
                     "application/json"
@@ -99,6 +109,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new article chapter",
                 "consumes": [
                     "application/json"
@@ -145,6 +160,11 @@ const docTemplate = `{
         },
         "/v1/articles/chapter/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get article chapter",
                 "consumes": [
                     "application/json"
@@ -187,6 +207,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update articles chapter",
                 "consumes": [
                     "application/json"
@@ -238,6 +263,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete article chapter",
                 "consumes": [
                     "application/json"
@@ -282,6 +312,11 @@ const docTemplate = `{
         },
         "/v1/articles/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get articles by chapter id",
                 "consumes": [
                     "application/json"
@@ -327,6 +362,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update article",
                 "consumes": [
                     "application/json"
@@ -378,6 +418,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete article by guid",
                 "consumes": [
                     "application/json"
@@ -422,6 +467,11 @@ const docTemplate = `{
         },
         "/v1/authors": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get authors",
                 "consumes": [
                     "application/json"
@@ -458,6 +508,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new author",
                 "consumes": [
                     "application/json"
@@ -504,6 +559,11 @@ const docTemplate = `{
         },
         "/v1/authors/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update author",
                 "consumes": [
                     "application/json"
@@ -555,6 +615,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete author",
                 "consumes": [
                     "application/json"
@@ -599,6 +664,11 @@ const docTemplate = `{
         },
         "/v1/blogs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get publication categories",
                 "consumes": [
                     "application/json"
@@ -635,6 +705,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new publication category",
                 "consumes": [
                     "application/json"
@@ -681,6 +756,11 @@ const docTemplate = `{
         },
         "/v1/blogs/publication/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update publication",
                 "consumes": [
                     "application/json"
@@ -732,6 +812,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete publication by guid",
                 "consumes": [
                     "application/json"
@@ -776,6 +861,11 @@ const docTemplate = `{
         },
         "/v1/blogs/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update publication category",
                 "consumes": [
                     "application/json"
@@ -827,6 +917,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete publication category",
                 "consumes": [
                     "application/json"
@@ -871,6 +966,11 @@ const docTemplate = `{
         },
         "/v1/blogs/{id}/publication": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get publications by category id",
                 "consumes": [
                     "application/json"
@@ -916,6 +1016,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new publication",
                 "consumes": [
                     "application/json"
@@ -962,6 +1067,11 @@ const docTemplate = `{
         },
         "/v1/dentists": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "List of dentists",
                 "consumes": [
                     "application/json"
@@ -1000,6 +1110,11 @@ const docTemplate = `{
         },
         "/v1/dentists/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get one dentist by ID",
                 "consumes": [
                     "application/json"
@@ -1042,6 +1157,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update dentists data by ID",
                 "consumes": [
                     "application/json"
@@ -1095,6 +1215,11 @@ const docTemplate = `{
         },
         "/v1/file": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "multipart/form-data"
                 ],
@@ -1135,6 +1260,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -1223,6 +1353,11 @@ const docTemplate = `{
         },
         "/v1/rbac/roles": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get roles",
                 "consumes": [
                     "application/json"
@@ -1261,6 +1396,11 @@ const docTemplate = `{
         },
         "/v1/rbac/user": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get user info",
                 "consumes": [
                     "application/json"
@@ -1297,6 +1437,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update user info",
                 "consumes": [
                     "application/json"
@@ -1348,6 +1493,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create user info",
                 "consumes": [
                     "application/json"
@@ -1392,6 +1542,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete user",
                 "consumes": [
                     "application/json"
@@ -1436,6 +1591,11 @@ const docTemplate = `{
         },
         "/v1/rbac/users": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get all users",
                 "consumes": [
                     "application/json"
@@ -1474,6 +1634,11 @@ const docTemplate = `{
         },
         "/v1/services": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new service",
                 "consumes": [
                     "application/json"
@@ -1520,6 +1685,11 @@ const docTemplate = `{
         },
         "/v1/services/groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get servivies groups",
                 "consumes": [
                     "application/json"
@@ -1556,6 +1726,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create new service group",
                 "consumes": [
                     "application/json"
@@ -1602,6 +1777,11 @@ const docTemplate = `{
         },
         "/v1/services/groups/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get servivies group",
                 "consumes": [
                     "application/json"
@@ -1644,6 +1824,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update service group",
                 "consumes": [
                     "application/json"
@@ -1695,6 +1880,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete servivies group",
                 "consumes": [
                     "application/json"
@@ -1739,6 +1929,11 @@ const docTemplate = `{
         },
         "/v1/services/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get servivies by group id",
                 "consumes": [
                     "application/json"
@@ -1786,6 +1981,11 @@ const docTemplate = `{
         },
         "/v1/services/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update service",
                 "consumes": [
                     "application/json"
@@ -1837,6 +2037,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete servivies by guid",
                 "consumes": [
                     "application/json"
