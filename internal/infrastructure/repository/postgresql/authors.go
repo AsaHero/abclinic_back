@@ -62,7 +62,11 @@ func (r authorsRepo) Get(ctx context.Context, guid string) (*entity.Authors, err
 	}
 
 	var author entity.Authors
-	err = r.db.QueryRow(ctx, query, args...).Scan(&author)
+	err = r.db.QueryRow(ctx, query, args...).Scan(
+		&author.GUID,
+		&author.Name,
+		&author.Img,
+		&author.CreatedAt)
 	if err != nil {
 		return nil, r.db.Error(err)
 	}

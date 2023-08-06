@@ -50,7 +50,16 @@ func (r usersRepo) Get(ctx context.Context, filter map[string]string) (*entity.U
 	}
 
 	var user entity.Users
-	err = r.db.QueryRow(ctx, query, args...).Scan(&user)
+	err = r.db.QueryRow(ctx, query, args...).Scan(
+		&user.GUID,
+		&user.Role,
+		&user.Firstname,
+		&user.Lastname,
+		&user.Username,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
 	if err != nil {
 		return nil, r.db.Error(err)
 	}
