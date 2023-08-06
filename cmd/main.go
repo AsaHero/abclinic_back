@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -18,7 +19,10 @@ func main() {
 	// }
 
 	// config init
-	cfg := config.NewConfig()
+	cfg, err := config.NewConfig()
+	if err != nil {
+		log.Fatalf("cannot load env: %v", err)
+	}
 
 	// app init
 	app := app.NewApp(cfg)
@@ -27,7 +31,7 @@ func main() {
 	go func() {
 		app.Logger.Info("Listen:", zap.String("address", cfg.Server.Host+cfg.Server.Port))
 		if err := app.Run(); err != nil {
-			app.Logger.Error("error while running server: %v", zap.Error(err))
+			app.Logger.Error("error while running server", zap.Error(err))
 		}
 	}()
 

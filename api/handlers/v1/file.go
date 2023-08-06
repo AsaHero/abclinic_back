@@ -15,6 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/casbin/casbin/v2"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/google/uuid"
@@ -22,15 +23,38 @@ import (
 )
 
 type filesHandler struct {
-	logger *zap.Logger
-	config *config.Config
+	logger   *zap.Logger
+	config   *config.Config
+	enforcer *casbin.Enforcer
 }
 
 func NewFilesHandler(option handlers.HandlerArguments) http.Handler {
 	handler := filesHandler{
-		logger: option.Logger,
-		config: option.Config,
+		logger:   option.Logger,
+		config:   option.Config,
+		enforcer: option.Enforcer,
 	}
+
+	policies := [][]string{
+		// admin
+		{"admin", "/v1/file", "(POST)|(DELETE)"},
+
+		// secretary
+		{"secretary", "/v1/file", "(POST)|(DELETE)"},
+
+		// dentist
+		{"dentist", "/v1/file", "(POST)|(DELETE)"},
+	}
+
+	for _, v := range policies {
+		_, err := handler.enforcer.AddPolicy(v)
+		if err != nil {
+			handler.logger.Error("error while adding policies to the casbin", zap.Error(err))
+			return nil
+		}
+	}
+
+	handler.enforcer.SavePolicy()
 
 	router := chi.NewRouter()
 

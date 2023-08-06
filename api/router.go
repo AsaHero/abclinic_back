@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 
+	"github.com/casbin/casbin/v2"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
 
@@ -17,12 +18,15 @@ import (
 )
 
 type RouteArguments struct {
-	Config           *config.Config
-	Logger           *zap.Logger
-	DentistsUsecase  usecase.Denstists
-	PriceListUsecase usecase.PriceList
-	InfoUsecase      usecase.InfoUsecase
-	BlogsUsecase     usecase.Blogs
+	Config              *config.Config
+	Logger              *zap.Logger
+	Enforcer            *casbin.Enforcer
+	DentistsUsecase     usecase.Denstists
+	PriceListUsecase    usecase.PriceList
+	InfoUsecase         usecase.InfoUsecase
+	BlogsUsecase        usecase.Blogs
+	RbacUsecase         usecase.Rbac
+	RefreshTokenUsecase usecase.RefreshToken
 }
 
 // NewRoute
@@ -31,12 +35,15 @@ type RouteArguments struct {
 // @name Authorization
 func NewRouter(args RouteArguments) http.Handler {
 	handlersArgs := handlers.HandlerArguments{
-		Config:           args.Config,
-		Logger:           args.Logger,
-		DentistsUsecase:  args.DentistsUsecase,
-		PriceListUsecase: args.PriceListUsecase,
-		InfoUsecase:      args.InfoUsecase,
-		BlogsUsecase:     args.BlogsUsecase,
+		Config:              args.Config,
+		Logger:              args.Logger,
+		Enforcer:            args.Enforcer,
+		DentistsUsecase:     args.DentistsUsecase,
+		PriceListUsecase:    args.PriceListUsecase,
+		InfoUsecase:         args.InfoUsecase,
+		BlogsUsecase:        args.BlogsUsecase,
+		RbacUsecase:         args.RbacUsecase,
+		RefreshTokenUsecase: args.RefreshTokenUsecase,
 	}
 
 	router := chi.NewRouter()
@@ -51,6 +58,7 @@ func NewRouter(args RouteArguments) http.Handler {
 	}))
 
 	router.Route("/v1", func(r chi.Router) {
+		r.Mount("/", v1.NewAuthHandler(handlersArgs))
 		r.Mount("/dentists", v1.NewDentistsHandler(handlersArgs))
 		r.Mount("/services", v1.NewPriceListHandler(handlersArgs))
 		r.Mount("/articles", v1.NewInfoHandler(handlersArgs))

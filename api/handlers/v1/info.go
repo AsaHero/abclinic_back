@@ -10,6 +10,7 @@ import (
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/pkg/config"
 	"github.com/AsaHero/abclinic/internal/usecase"
+	"github.com/casbin/casbin/v2"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
@@ -18,6 +19,7 @@ import (
 type infoHandler struct {
 	config      *config.Config
 	logger      *zap.Logger
+	enforcer    *casbin.Enforcer
 	infoUsecase usecase.InfoUsecase
 }
 
@@ -25,8 +27,49 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 	handler := infoHandler{
 		config:      args.Config,
 		logger:      args.Logger,
+		enforcer:    args.Enforcer,
 		infoUsecase: args.InfoUsecase,
 	}
+
+	policies := [][]string{
+		// admin
+		{"admin", "/v1/articles/{id}", "GET"},
+		{"admin", "/v1/articles", "POST"},
+		{"admin", "/v1/articles/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/articles/chapter", "GET"},
+		{"admin", "/v1/articles/chapter/{id}", "GET"},
+		{"admin", "/v1/articles/chapter", "POST"},
+		{"admin", "/v1/articles/chapter/{id}", "(PUT)|(DELETE)"},
+
+		// website
+		{"website", "/v1/articles/{id}", "GET"},
+		{"website", "/v1/articles/chapter", "GET"},
+		{"website", "/v1/articles/chapter/{id}", "GET"},
+
+		// secretary
+		{"secretary", "/v1/articles/{id}", "GET"},
+		{"secretary", "/v1/articles", "POST"},
+		{"secretary", "/v1/articles/{id}", "(PUT)|(DELETE)"},
+		{"secretary", "/v1/articles/chapter", "GET"},
+		{"secretary", "/v1/articles/chapter/{id}", "GET"},
+		{"secretary", "/v1/articles/chapter", "POST"},
+		{"secretary", "/v1/articles/chapter/{id}", "(PUT)|(DELETE)"},
+
+		// dentist
+		{"dentist", "/v1/articles/{id}", "GET"},
+		{"dentist", "/v1/articles/chapter", "GET"},
+		{"dentist", "/v1/articles/chapter/{id}", "GET"},
+	}
+
+	for _, v := range policies {
+		_, err := handler.enforcer.AddPolicy(v)
+		if err != nil {
+			handler.logger.Error("error while adding policies to the casbin", zap.Error(err))
+			return nil
+		}
+	}
+
+	handler.enforcer.SavePolicy()
 
 	router := chi.NewRouter()
 

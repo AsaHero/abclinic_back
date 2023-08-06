@@ -13,6 +13,7 @@ import (
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/pkg/config"
 	"github.com/AsaHero/abclinic/internal/usecase"
+	"github.com/casbin/casbin/v2"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
@@ -21,6 +22,7 @@ import (
 type authorsHandler struct {
 	config       *config.Config
 	logger       *zap.Logger
+	enforcer     *casbin.Enforcer
 	blogsUsecase usecase.Blogs
 }
 
@@ -29,7 +31,36 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 		config:       args.Config,
 		logger:       args.Logger,
 		blogsUsecase: args.BlogsUsecase,
+		enforcer:     args.Enforcer,
 	}
+
+	policies := [][]string{
+		// admin
+		{"admin", "/v1/authors", "GET"},
+		{"admin", "/v1/authors", "POST"},
+		{"admin", "/v1/authors/{id}", "(PUT)|(DELETE)"},
+
+		// website
+		{"website", "/v1/authors", "GET"},
+
+		// secretary
+		{"secretary", "/v1/authors", "GET"},
+
+		// dentist
+		{"dentist", "/v1/authors", "GET"},
+		{"dentist", "/v1/authors", "POST"},
+		{"dentist", "/v1/authors/{id}", "(PUT)|(DELETE)"},
+	}
+
+	for _, v := range policies {
+		_, err := handler.enforcer.AddPolicy(v)
+		if err != nil {
+			handler.logger.Error("error while adding policies to the casbin", zap.Error(err))
+			return nil
+		}
+	}
+
+	handler.enforcer.SavePolicy()
 
 	router := chi.NewRouter()
 

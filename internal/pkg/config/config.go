@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"os"
+	"time"
+)
 
 type Config struct {
 	APP         string
@@ -29,12 +32,17 @@ type Config struct {
 		Password string
 		SSLMode  string
 	}
+	Token struct {
+		Secret     string
+		AccessTTL  time.Duration
+		RefreshTTL time.Duration
+	}
 	Context struct {
 		Timeout string
 	}
 }
 
-func NewConfig() *Config {
+func NewConfig() (*Config, error) {
 
 	config := Config{}
 	// general initialization
@@ -65,7 +73,24 @@ func NewConfig() *Config {
 	config.DB.Password = getEnv("POSTGRES_PASSWORD", "postgres")
 	config.DB.SSLMode = getEnv("POSTGRES_SSLMODE", "disable")
 
-	return &config
+	// token init
+	// token initialization
+	config.Token.Secret = getEnv("TOKEN_SECRET", "haCBL1+6BsR6f0ZyF6AOWh0mqouoqkl9KpNK9YhuVlA=")
+
+	// access ttl parse
+	accessTTl, err := time.ParseDuration(getEnv("TOKEN_ACCESS_TTL", "1h"))
+	if err != nil {
+		return nil, err
+	}
+	// refresh ttl parse
+	refreshTTL, err := time.ParseDuration(getEnv("TOKEN_REFRESH_TTL", "24h"))
+	if err != nil {
+		return nil, err
+	}
+	config.Token.AccessTTL = accessTTl
+	config.Token.RefreshTTL = refreshTTL
+
+	return &config, nil
 }
 
 func getEnv(key, defaultValue string) string {

@@ -11,6 +11,7 @@ import (
 	"github.com/AsaHero/abclinic/internal/entity"
 	"github.com/AsaHero/abclinic/internal/pkg/config"
 	"github.com/AsaHero/abclinic/internal/usecase"
+	"github.com/casbin/casbin/v2"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
@@ -19,6 +20,7 @@ import (
 type blogsHandler struct {
 	config       *config.Config
 	logger       *zap.Logger
+	enforcer     *casbin.Enforcer
 	blogsUsecase usecase.Blogs
 }
 
@@ -26,8 +28,45 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 	handler := blogsHandler{
 		config:       args.Config,
 		logger:       args.Logger,
+		enforcer:     args.Enforcer,
 		blogsUsecase: args.BlogsUsecase,
 	}
+
+	policies := [][]string{
+		// admin
+		{"admin", "/v1/blogs", "GET"},
+		{"admin", "/v1/blogs", "POST"},
+		{"admin", "/v1/blogs/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/blogs/{id}/publication", "GET"},
+		{"admin", "/v1/blogs/{id}/publication", "POST"},
+		{"admin", "/v1/blogs/publication/{id}", "(PUT)|(DELETE)"},
+
+		// website
+		{"website", "/v1/blogs", "GET"},
+		{"website", "/v1/blogs/{id}/publication", "GET"},
+
+		// secretary
+		{"secretary", "/v1/blogs", "GET"},
+		{"secretary", "/v1/blogs/{id}/publication", "GET"},
+
+		// dentist
+		{"dentist", "/v1/blogs", "GET"},
+		{"dentist", "/v1/blogs", "POST"},
+		{"dentist", "/v1/blogs/{id}", "(PUT)|(DELETE)"},
+		{"dentist", "/v1/blogs/{id}/publication", "GET"},
+		{"dentist", "/v1/blogs/{id}/publication", "POST"},
+		{"dentist", "/v1/blogs/publication/{id}", "(PUT)|(DELETE)"},
+	}
+
+	for _, v := range policies {
+		_, err := handler.enforcer.AddPolicy(v)
+		if err != nil {
+			handler.logger.Error("error while adding policies to the casbin", zap.Error(err))
+			return nil
+		}
+	}
+
+	handler.enforcer.SavePolicy()
 
 	router := chi.NewRouter()
 
@@ -88,8 +127,8 @@ func (h blogsHandler) GetPublicationsList() http.HandlerFunc {
 				GUID:       v.GUID,
 				CategoryID: v.CategoryID,
 				Author: models.Authors{
-					GUID:  author.GUID,
-					Name:  author.Name,
+					GUID: author.GUID,
+					Name: author.Name,
 					// Photo: author.Img,
 				},
 				Title: v.Title,
