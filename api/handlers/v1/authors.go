@@ -66,12 +66,15 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-		// authors
 		r.Get("/", handler.GetAuthorsList())
-		r.Post("/", handler.CreateAuthor())
-		r.Put("/{id}", handler.UpdateAuthor())
-		r.Delete("/{id}", handler.DeleteAuthor())
+		
+		router.Group(func(r chi.Router) {
+			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+			
+			r.Post("/", handler.CreateAuthor())
+			r.Put("/{id}", handler.UpdateAuthor())
+			r.Delete("/{id}", handler.DeleteAuthor())
+		})
 	})
 
 	return router

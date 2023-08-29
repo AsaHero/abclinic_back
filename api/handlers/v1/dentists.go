@@ -61,10 +61,13 @@ func NewDentistsHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		r.Get("/", handler.GetDentistsList())
 		r.Get("/{id}", handler.GetDentist())
-		r.Put("/{id}", handler.UpdateDentist())
+		
+		r.Group(func(r chi.Router) {
+			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+			r.Put("/{id}", handler.UpdateDentist())
+		})
 	})
 
 	return router

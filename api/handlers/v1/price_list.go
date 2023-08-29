@@ -75,16 +75,21 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+
 		r.Get("/{group_id}", handler.GetPriceListByGroup())
-		r.Post("/", handler.CreateService())
-		r.Put("/{id}", handler.UpdateService())
-		r.Delete("/{id}", handler.DeleteService())
 		r.Get("/groups", handler.GetGroupList())
 		r.Get("/groups/{id}", handler.GetGroup())
-		r.Post("/groups", handler.CreateServiceGroup())
-		r.Put("/groups/{id}", handler.UpdateServiceGroup())
-		r.Delete("/groups/{id}", handler.DeleteServiceGroups())
+
+		r.Group(func(r chi.Router) {
+			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+
+			r.Post("/", handler.CreateService())
+			r.Put("/{id}", handler.UpdateService())
+			r.Delete("/{id}", handler.DeleteService())
+			r.Post("/groups", handler.CreateServiceGroup())
+			r.Put("/groups/{id}", handler.UpdateServiceGroup())
+			r.Delete("/groups/{id}", handler.DeleteServiceGroups())
+		})
 	})
 
 	return router

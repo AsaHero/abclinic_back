@@ -72,18 +72,23 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-		// category
 		r.Get("/", handler.GetCategoriesList())
-		r.Post("/", handler.CreateCategory())
-		r.Put("/{id}", handler.UpdateCategory())
-		r.Delete("/{id}", handler.DeleteCategory())
-
-		// publication
-		r.Post("/{id}/publication", handler.CreatePublication())
 		r.Get("/{id}/publication", handler.GetPublicationsList())
-		r.Put("/publication/{id}", handler.UpdatePublication())
-		r.Delete("/publication/{id}", handler.DeletePublication())
+
+		r.Group(func(r chi.Router) {
+			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+			// category
+
+			r.Post("/", handler.CreateCategory())
+			r.Put("/{id}", handler.UpdateCategory())
+			r.Delete("/{id}", handler.DeleteCategory())
+
+			// publication
+			r.Post("/{id}/publication", handler.CreatePublication())
+			r.Put("/publication/{id}", handler.UpdatePublication())
+			r.Delete("/publication/{id}", handler.DeletePublication())
+		})
+
 	})
 
 	return router

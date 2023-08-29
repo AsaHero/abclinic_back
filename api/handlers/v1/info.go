@@ -75,16 +75,20 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
-		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		r.Get("/{id}", handler.GetArticlesByChapter())
-		r.Post("/", handler.CreateArticle())
-		r.Put("/{id}", handler.UpdateArticle())
-		r.Delete("/{id}", handler.DeleteArticle())
 		r.Get("/chapter", handler.GetChapterList())
 		r.Get("/chapter/{id}", handler.GetChpater())
-		r.Post("/chapter", handler.CreateChapter())
-		r.Put("/chapter/{id}", handler.UpdateChapter())
-		r.Delete("/chapter/{id}", handler.DeleteChapter())
+
+		r.Group(func(r chi.Router) {
+			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+
+			r.Post("/", handler.CreateArticle())
+			r.Put("/{id}", handler.UpdateArticle())
+			r.Delete("/{id}", handler.DeleteArticle())
+			r.Post("/chapter", handler.CreateChapter())
+			r.Put("/chapter/{id}", handler.UpdateChapter())
+			r.Delete("/chapter/{id}", handler.DeleteChapter())
+		})
 	})
 
 	return router
