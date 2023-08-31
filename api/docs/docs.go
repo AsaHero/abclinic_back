@@ -69,6 +69,11 @@ const docTemplate = `{
         },
         "/v1/articles/chapter": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get article chapters",
                 "consumes": [
                     "application/json"
@@ -156,6 +161,11 @@ const docTemplate = `{
         },
         "/v1/articles/chapter/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get article chapter",
                 "consumes": [
                     "application/json"
@@ -303,6 +313,11 @@ const docTemplate = `{
         },
         "/v1/articles/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get articles by chapter id",
                 "consumes": [
                     "application/json"
@@ -453,6 +468,11 @@ const docTemplate = `{
         },
         "/v1/authors": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get authors",
                 "consumes": [
                     "application/json"
@@ -645,6 +665,11 @@ const docTemplate = `{
         },
         "/v1/blogs": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get publication categories",
                 "consumes": [
                     "application/json"
@@ -942,6 +967,11 @@ const docTemplate = `{
         },
         "/v1/blogs/{id}/publication": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get publications by category id",
                 "consumes": [
                     "application/json"
@@ -1038,6 +1068,11 @@ const docTemplate = `{
         },
         "/v1/dentists": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "List of dentists",
                 "consumes": [
                     "application/json"
@@ -1076,6 +1111,11 @@ const docTemplate = `{
         },
         "/v1/dentists/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get one dentist by ID",
                 "consumes": [
                     "application/json"
@@ -1690,6 +1730,11 @@ const docTemplate = `{
         },
         "/v1/services/groups": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get servivies groups",
                 "consumes": [
                     "application/json"
@@ -1777,6 +1822,11 @@ const docTemplate = `{
         },
         "/v1/services/groups/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get servivies group",
                 "consumes": [
                     "application/json"
@@ -1924,6 +1974,11 @@ const docTemplate = `{
         },
         "/v1/services/{group_id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get servivies by group id",
                 "consumes": [
                     "application/json"

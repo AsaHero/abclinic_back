@@ -83,6 +83,7 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetCategoriesList
+// @Security ApiKeyAuth
 // @Router /v1/blogs/{id}/publication [GET]
 // @Summary Get publications
 // @Description Get publications by category id
@@ -316,6 +317,7 @@ func (h blogsHandler) DeletePublication() http.HandlerFunc {
 }
 
 // GetCategoriesList
+// @Security ApiKeyAuth
 // @Router /v1/blogs [GET]
 // @Summary Get publication categories
 // @Description Get publication categories

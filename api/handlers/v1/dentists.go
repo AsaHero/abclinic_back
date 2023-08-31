@@ -65,6 +65,7 @@ func NewDentistsHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetDentists
+// @Security ApiKeyAuth
 // @Router /v1/dentists/{id} [GET]
 // @Summary Get one dentist
 // @Description Get one dentist by ID
@@ -118,6 +119,7 @@ func (h dentistsHandler) GetDentist() http.HandlerFunc {
 }
 
 // GetDentistsList
+// @Security ApiKeyAuth
 // @Router /v1/dentists [GET]
 // @Summary Get dentist list
 // @Description List of dentists

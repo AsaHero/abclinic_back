@@ -79,6 +79,7 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetArticlesByChapter
+// @Security ApiKeyAuth
 // @Router /v1/articles/{id} [GET]
 // @Summary Get articles
 // @Description Get articles by chapter id
@@ -251,6 +252,7 @@ func (h infoHandler) DeleteArticle() http.HandlerFunc {
 }
 
 // GetChapterList
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter [GET]
 // @Summary Get article chapters
 // @Description Get article chapters
@@ -288,6 +290,7 @@ func (h infoHandler) GetChapterList() http.HandlerFunc {
 }
 
 // GetChpater
+// @Security ApiKeyAuth
 // @Router /v1/articles/chapter/{id} [GET]
 // @Summary Get article chapter
 // @Description Get article chapter

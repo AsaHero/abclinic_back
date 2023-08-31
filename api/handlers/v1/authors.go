@@ -61,7 +61,7 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/", handler.GetAuthorsList())
 		
 	})
-
+	
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		
@@ -74,6 +74,7 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 }
 
 // GetCategoriesList
+// @Security ApiKeyAuth
 // @Router /v1/authors [GET]
 // @Summary Get authors
 // @Description Get authors
