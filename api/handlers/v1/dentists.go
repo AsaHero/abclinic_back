@@ -53,14 +53,13 @@ func NewDentistsHandler(args handlers.HandlerArguments) http.Handler {
 	router.Group(func(r chi.Router) {
 		r.Get("/", handler.GetDentistsList())
 		r.Get("/{id}", handler.GetDentist())
-
 	})
-	
+
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		r.Put("/{id}", handler.UpdateDentist())
 	})
-	
+
 	return router
 }
 

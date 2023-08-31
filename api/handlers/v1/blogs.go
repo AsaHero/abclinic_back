@@ -36,15 +36,19 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 	policies := [][]string{
 		// admin
 		{"admin", "/v1/blogs", "POST"},
-		{"admin", "/v1/blogs/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/blogs/{id}", "PUT"},
+		{"admin", "/v1/blogs/{id}", "DELETE"},
 		{"admin", "/v1/blogs/{id}/publication", "POST"},
-		{"admin", "/v1/blogs/publication/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/blogs/publication/{id}", "PUT"},
+		{"admin", "/v1/blogs/{id}", "DELETE"},
 
 		// dentist
 		{"dentist", "/v1/blogs", "POST"},
-		{"dentist", "/v1/blogs/{id}", "(PUT)|(DELETE)"},
+		{"dentist", "/v1/blogs/{id}", "PUT"},
+		{"dentist", "/v1/blogs/{id}", "DELETE"},
 		{"dentist", "/v1/blogs/{id}/publication", "POST"},
-		{"dentist", "/v1/blogs/publication/{id}", "(PUT)|(DELETE)"},
+		{"dentist", "/v1/blogs/publication/{id}", "PUT"},
+		{"dentist", "/v1/blogs/publication/{id}", "DELETE"},
 	}
 
 	for _, v := range policies {
@@ -63,9 +67,8 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/", handler.GetCategoriesList())
 		r.Get("/{id}/publication", handler.GetPublicationsList())
 
-		
 	})
-	
+
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 		// category

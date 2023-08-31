@@ -65,7 +65,7 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/groups/{id}", handler.GetGroup())
 
 	})
-	
+
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 

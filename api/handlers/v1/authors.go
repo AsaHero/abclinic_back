@@ -38,11 +38,13 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 	policies := [][]string{
 		// admin
 		{"admin", "/v1/authors", "POST"},
-		{"admin", "/v1/authors/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/authors/{id}", "PUT"},
+		{"admin", "/v1/authors/{id}", "DELETE"},
 
 		// dentist
 		{"dentist", "/v1/authors", "POST"},
-		{"dentist", "/v1/authors/{id}", "(PUT)|(DELETE)"},
+		{"dentist", "/v1/authors/{id}", "PUT"},
+		{"dentist", "/v1/authors/{id}", "DELETE"},
 	}
 
 	for _, v := range policies {
@@ -59,12 +61,12 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 
 	router.Group(func(r chi.Router) {
 		r.Get("/", handler.GetAuthorsList())
-		
+
 	})
-	
+
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-		
+
 		r.Post("/", handler.CreateAuthor())
 		r.Put("/{id}", handler.UpdateAuthor())
 		r.Delete("/{id}", handler.DeleteAuthor())

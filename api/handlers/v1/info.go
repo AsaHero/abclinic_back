@@ -64,7 +64,7 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/chapter/{id}", handler.GetChpater())
 
 	})
-	
+
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 
