@@ -35,26 +35,14 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 
 	policies := [][]string{
 		// admin
-		{"admin", "/v1/blogs", "GET"},
 		{"admin", "/v1/blogs", "POST"},
 		{"admin", "/v1/blogs/{id}", "(PUT)|(DELETE)"},
-		{"admin", "/v1/blogs/{id}/publication", "GET"},
 		{"admin", "/v1/blogs/{id}/publication", "POST"},
 		{"admin", "/v1/blogs/publication/{id}", "(PUT)|(DELETE)"},
 
-		// website
-		{"website", "/v1/blogs", "GET"},
-		{"website", "/v1/blogs/{id}/publication", "GET"},
-
-		// secretary
-		{"secretary", "/v1/blogs", "GET"},
-		{"secretary", "/v1/blogs/{id}/publication", "GET"},
-
 		// dentist
-		{"dentist", "/v1/blogs", "GET"},
 		{"dentist", "/v1/blogs", "POST"},
 		{"dentist", "/v1/blogs/{id}", "(PUT)|(DELETE)"},
-		{"dentist", "/v1/blogs/{id}/publication", "GET"},
 		{"dentist", "/v1/blogs/{id}/publication", "POST"},
 		{"dentist", "/v1/blogs/publication/{id}", "(PUT)|(DELETE)"},
 	}

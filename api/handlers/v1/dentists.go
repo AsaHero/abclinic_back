@@ -35,17 +35,7 @@ func NewDentistsHandler(args handlers.HandlerArguments) http.Handler {
 
 	policies := [][]string{
 		// admin
-		{"admin", "/v1/dentists", "GET"},
-		{"admin", "/v1/dentists/{id}", "(GET)|(PUT)"},
-
-		// website
-		{"website", "/v1/dentists", "GET"},
-
-		// secretary
-		{"secretary", "/v1/dentists", "GET"},
-
-		// dentist
-		{"dentist", "/v1/dentists", "GET"},
+		{"admin", "/v1/dentists/{id}", "PUT"},
 	}
 
 	for _, v := range policies {
@@ -63,7 +53,7 @@ func NewDentistsHandler(args handlers.HandlerArguments) http.Handler {
 	router.Group(func(r chi.Router) {
 		r.Get("/", handler.GetDentistsList())
 		r.Get("/{id}", handler.GetDentist())
-		
+
 		r.Group(func(r chi.Router) {
 			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 			r.Put("/{id}", handler.UpdateDentist())

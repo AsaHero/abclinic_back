@@ -37,18 +37,10 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 
 	policies := [][]string{
 		// admin
-		{"admin", "/v1/authors", "GET"},
 		{"admin", "/v1/authors", "POST"},
 		{"admin", "/v1/authors/{id}", "(PUT)|(DELETE)"},
 
-		// website
-		{"website", "/v1/authors", "GET"},
-
-		// secretary
-		{"secretary", "/v1/authors", "GET"},
-
 		// dentist
-		{"dentist", "/v1/authors", "GET"},
 		{"dentist", "/v1/authors", "POST"},
 		{"dentist", "/v1/authors/{id}", "(PUT)|(DELETE)"},
 	}

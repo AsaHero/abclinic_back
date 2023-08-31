@@ -34,32 +34,16 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 
 	policies := [][]string{
 		// admin
-		{"admin", "/v1/services/{group_id}", "GET"},
 		{"admin", "/v1/services", "POST"},
 		{"admin", "/v1/services/{id}", "(PUT)|(DELETE)"},
-		{"admin", "/v1/services/groups", "GET"},
-		{"admin", "/v1/services/groups/{id}", "GET"},
 		{"admin", "/v1/services/groups", "POST"},
 		{"admin", "/v1/services/groups/{id}", "(PUT)|(DELETE)"},
 
-		// website
-		{"website", "/v1/services/{group_id}", "GET"},
-		{"website", "/v1/services/groups", "GET"},
-		{"website", "/v1/services/groups/{id}", "GET"},
-
 		// secretary
-		{"secretary", "/v1/services/{group_id}", "GET"},
 		{"secretary", "/v1/services", "POST"},
 		{"secretary", "/v1/services/{id}", "(PUT)|(DELETE)"},
-		{"secretary", "/v1/services/groups", "GET"},
-		{"secretary", "/v1/services/groups/{id}", "GET"},
 		{"secretary", "/v1/services/groups", "POST"},
 		{"secretary", "/v1/services/groups/{id}", "(PUT)|(DELETE)"},
-
-		// dentist
-		{"dentist", "/v1/services/{group_id}", "GET"},
-		{"dentist", "/v1/services/groups", "GET"},
-		{"dentist", "/v1/services/groups/{id}", "GET"},
 	}
 
 	for _, v := range policies {
