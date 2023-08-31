@@ -64,23 +64,22 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/groups", handler.GetGroupList())
 		r.Get("/groups/{id}", handler.GetGroup())
 
-		r.Group(func(r chi.Router) {
-			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-
-			r.Post("/", handler.CreateService())
-			r.Put("/{id}", handler.UpdateService())
-			r.Delete("/{id}", handler.DeleteService())
-			r.Post("/groups", handler.CreateServiceGroup())
-			r.Put("/groups/{id}", handler.UpdateServiceGroup())
-			r.Delete("/groups/{id}", handler.DeleteServiceGroups())
-		})
 	})
 
+	router.Group(func(r chi.Router) {
+		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+
+		r.Post("/", handler.CreateService())
+		r.Put("/{id}", handler.UpdateService())
+		r.Delete("/{id}", handler.DeleteService())
+		r.Post("/groups", handler.CreateServiceGroup())
+		r.Put("/groups/{id}", handler.UpdateServiceGroup())
+		r.Delete("/groups/{id}", handler.DeleteServiceGroups())
+	})
 	return router
 }
 
 // GetPriceListByGroup
-// @Security ApiKeyAuth
 // @Router /v1/services/{group_id} [GET]
 // @Summary Get services
 // @Description Get servivies by group id
@@ -253,7 +252,6 @@ func (h priceListHandler) DeleteService() http.HandlerFunc {
 }
 
 // GetGroupList
-// @Security ApiKeyAuth
 // @Router /v1/services/groups [GET]
 // @Summary Get services groups
 // @Description Get servivies groups
@@ -291,7 +289,6 @@ func (h priceListHandler) GetGroupList() http.HandlerFunc {
 }
 
 // GetGroup
-// @Security ApiKeyAuth
 // @Router /v1/services/groups/{id} [GET]
 // @Summary Get services group
 // @Description Get servivies group

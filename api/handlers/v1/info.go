@@ -63,23 +63,22 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/chapter", handler.GetChapterList())
 		r.Get("/chapter/{id}", handler.GetChpater())
 
-		r.Group(func(r chi.Router) {
-			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-
-			r.Post("/", handler.CreateArticle())
-			r.Put("/{id}", handler.UpdateArticle())
-			r.Delete("/{id}", handler.DeleteArticle())
-			r.Post("/chapter", handler.CreateChapter())
-			r.Put("/chapter/{id}", handler.UpdateChapter())
-			r.Delete("/chapter/{id}", handler.DeleteChapter())
-		})
 	})
+	
+	router.Group(func(r chi.Router) {
+		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
 
+		r.Post("/", handler.CreateArticle())
+		r.Put("/{id}", handler.UpdateArticle())
+		r.Delete("/{id}", handler.DeleteArticle())
+		r.Post("/chapter", handler.CreateChapter())
+		r.Put("/chapter/{id}", handler.UpdateChapter())
+		r.Delete("/chapter/{id}", handler.DeleteChapter())
+	})
 	return router
 }
 
 // GetArticlesByChapter
-// @Security ApiKeyAuth
 // @Router /v1/articles/{id} [GET]
 // @Summary Get articles
 // @Description Get articles by chapter id
@@ -252,7 +251,6 @@ func (h infoHandler) DeleteArticle() http.HandlerFunc {
 }
 
 // GetChapterList
-// @Security ApiKeyAuth
 // @Router /v1/articles/chapter [GET]
 // @Summary Get article chapters
 // @Description Get article chapters
@@ -290,7 +288,6 @@ func (h infoHandler) GetChapterList() http.HandlerFunc {
 }
 
 // GetChpater
-// @Security ApiKeyAuth
 // @Router /v1/articles/chapter/{id} [GET]
 // @Summary Get article chapter
 // @Description Get article chapter

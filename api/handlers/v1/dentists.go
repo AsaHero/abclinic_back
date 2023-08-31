@@ -54,17 +54,17 @@ func NewDentistsHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/", handler.GetDentistsList())
 		r.Get("/{id}", handler.GetDentist())
 
-		r.Group(func(r chi.Router) {
-			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-			r.Put("/{id}", handler.UpdateDentist())
-		})
 	})
-
+	
+	router.Group(func(r chi.Router) {
+		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+		r.Put("/{id}", handler.UpdateDentist())
+	})
+	
 	return router
 }
 
 // GetDentists
-// @Security ApiKeyAuth
 // @Router /v1/dentists/{id} [GET]
 // @Summary Get one dentist
 // @Description Get one dentist by ID
@@ -118,7 +118,6 @@ func (h dentistsHandler) GetDentist() http.HandlerFunc {
 }
 
 // GetDentistsList
-// @Security ApiKeyAuth
 // @Router /v1/dentists [GET]
 // @Summary Get dentist list
 // @Description List of dentists

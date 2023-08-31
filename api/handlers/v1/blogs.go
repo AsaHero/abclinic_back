@@ -63,27 +63,26 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 		r.Get("/", handler.GetCategoriesList())
 		r.Get("/{id}/publication", handler.GetPublicationsList())
 
-		r.Group(func(r chi.Router) {
-			r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
-			// category
-
-			r.Post("/", handler.CreateCategory())
-			r.Put("/{id}", handler.UpdateCategory())
-			r.Delete("/{id}", handler.DeleteCategory())
-
-			// publication
-			r.Post("/{id}/publication", handler.CreatePublication())
-			r.Put("/publication/{id}", handler.UpdatePublication())
-			r.Delete("/publication/{id}", handler.DeletePublication())
-		})
-
+		
 	})
+	
+	router.Group(func(r chi.Router) {
+		r.Use(middleware.Authorizer(handler.enforcer, handler.logger))
+		// category
 
+		r.Post("/", handler.CreateCategory())
+		r.Put("/{id}", handler.UpdateCategory())
+		r.Delete("/{id}", handler.DeleteCategory())
+
+		// publication
+		r.Post("/{id}/publication", handler.CreatePublication())
+		r.Put("/publication/{id}", handler.UpdatePublication())
+		r.Delete("/publication/{id}", handler.DeletePublication())
+	})
 	return router
 }
 
 // GetCategoriesList
-// @Security ApiKeyAuth
 // @Router /v1/blogs/{id}/publication [GET]
 // @Summary Get publications
 // @Description Get publications by category id
@@ -317,7 +316,6 @@ func (h blogsHandler) DeletePublication() http.HandlerFunc {
 }
 
 // GetCategoriesList
-// @Security ApiKeyAuth
 // @Router /v1/blogs [GET]
 // @Summary Get publication categories
 // @Description Get publication categories
