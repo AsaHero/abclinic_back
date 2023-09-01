@@ -84,7 +84,7 @@ func (u infoUsecase) DeleteArticlesChapter(ctx context.Context, id string) error
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	err := u.articlesRepo.Delete(ctx, map[string]string{"group_id": id})
+	err := u.articlesRepo.Delete(ctx, map[string]string{"chapter_id": id})
 	if err != nil {
 		if err.Error() != "no sql rows" {
 			return err
