@@ -38,13 +38,16 @@ func NewFilesHandler(option handlers.HandlerArguments) http.Handler {
 
 	policies := [][]string{
 		// admin
-		{"admin", "/v1/file", "(POST)|(DELETE)"},
+		{"admin", "/v1/file", "POST"},
+		{"admin", "/v1/file", "DELETE"},
 
 		// secretary
-		{"secretary", "/v1/file", "(POST)|(DELETE)"},
+		{"secretary", "/v1/file", "POST"},
+		{"admin", "/v1/file", "DELETE"},
 
 		// dentist
-		{"dentist", "/v1/file", "(POST)|(DELETE)"},
+		{"dentist", "/v1/file", "POST"},
+		{"admin", "/v1/file", "DELETE"},
 	}
 
 	for _, v := range policies {

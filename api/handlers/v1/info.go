@@ -35,15 +35,19 @@ func NewInfoHandler(args handlers.HandlerArguments) http.Handler {
 	policies := [][]string{
 		// admin
 		{"admin", "/v1/articles", "POST"},
-		{"admin", "/v1/articles/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/articles/{id}", "PUT"},
+		{"admin", "/v1/articles/{id}", "DELETE"},
 		{"admin", "/v1/articles/chapter", "POST"},
-		{"admin", "/v1/articles/chapter/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/articles/chapter/{id}", "PUT"},
+		{"admin", "/v1/articles/chapter/{id}", "DELETE"},
 
 		// secretary
 		{"secretary", "/v1/articles", "POST"},
-		{"secretary", "/v1/articles/{id}", "(PUT)|(DELETE)"},
+		{"secretary", "/v1/articles/{id}", "PUT"},
+		{"secretary", "/v1/articles/{id}", "DELETE"},
 		{"secretary", "/v1/articles/chapter", "POST"},
-		{"secretary", "/v1/articles/chapter/{id}", "(PUT)|(DELETE)"},
+		{"secretary", "/v1/articles/chapter/{id}", "PUT"},
+		{"secretary", "/v1/articles/chapter/{id}", "DELETE"},
 	}
 
 	for _, v := range policies {

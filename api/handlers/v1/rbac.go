@@ -40,7 +40,8 @@ func NewRbacHandler(options handlers.HandlerArguments) http.Handler {
 		{"admin", "/v1/rbac/user", "GET"},
 		{"admin", "/v1/rbac/users", "GET"},
 		{"admin", "/v1/rbac/user", "POST"},
-		{"admin", "/v1/rbac/user/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/rbac/user/{id}", "PUT"},
+		{"admin", "/v1/rbac/user/{id}", "DELETE"},
 
 		// admin
 		{"dentist", "/v1/rbac/roles", "GET"},

@@ -35,15 +35,19 @@ func NewPriceListHandler(args handlers.HandlerArguments) http.Handler {
 	policies := [][]string{
 		// admin
 		{"admin", "/v1/services", "POST"},
-		{"admin", "/v1/services/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/services/{id}", "PUT"},
+		{"admin", "/v1/services/{id}", "DELETE"},
 		{"admin", "/v1/services/groups", "POST"},
-		{"admin", "/v1/services/groups/{id}", "(PUT)|(DELETE)"},
+		{"admin", "/v1/services/groups/{id}", "PUT"},
+		{"admin", "/v1/services/groups/{id}", "DELETE"},
 
 		// secretary
 		{"secretary", "/v1/services", "POST"},
-		{"secretary", "/v1/services/{id}", "(PUT)|(DELETE)"},
+		{"secretary", "/v1/services/{id}", "PUT)"},
+		{"secretary", "/v1/services/{id}", "DELETE"},
 		{"secretary", "/v1/services/groups", "POST"},
-		{"secretary", "/v1/services/groups/{id}", "(PUT)|(DELETE)"},
+		{"secretary", "/v1/services/groups/{id}", "PUT"},
+		{"secretary", "/v1/services/groups/{id}", "DELETE"},
 	}
 
 	for _, v := range policies {
