@@ -56,7 +56,7 @@ func (r categoriesRepo) List(ctx context.Context, filter map[string]string) ([]*
 		"description",
 		"url",
 		"created_at",
-	).From(r.table)
+	).From(r.table).OrderBy("created_at asc")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

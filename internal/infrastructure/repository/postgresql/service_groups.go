@@ -45,7 +45,6 @@ func (r serviceGroupsRepo) Create(ctx context.Context, req *entity.ServiceGroups
 		return r.db.Error(err)
 	}
 
-	
 	return nil
 }
 
@@ -54,7 +53,7 @@ func (r serviceGroupsRepo) List(ctx context.Context, filter map[string]string) (
 		"guid",
 		"name",
 		"created_at",
-	).From(r.table)
+	).From(r.table).OrderBy("created_at asc")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

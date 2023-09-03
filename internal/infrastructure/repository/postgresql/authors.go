@@ -80,7 +80,7 @@ func (r authorsRepo) List(ctx context.Context, filter map[string]string) ([]*ent
 		"name",
 		"img",
 		"created_at",
-	).From(r.table)
+	).From(r.table).OrderBy("created_at asc")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {

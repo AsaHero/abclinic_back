@@ -58,7 +58,7 @@ func (r articlesRepo) List(ctx context.Context, filter map[string]string) ([]*en
 		"img",
 		"side",
 		"created_at",
-	).From(r.table)
+	).From(r.table).OrderBy("created_at asc")
 
 	for k, v := range filter {
 		switch k {

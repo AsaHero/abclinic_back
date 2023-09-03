@@ -56,7 +56,7 @@ func (r servicesRepo) List(ctx context.Context, filter map[string]string) ([]*en
 		"name",
 		"price",
 		"created_at",
-	).From(r.table)
+	).From(r.table).OrderBy("created_at asc")
 
 	for k, v := range filter {
 		switch k {
@@ -97,8 +97,8 @@ func (r servicesRepo) List(ctx context.Context, filter map[string]string) ([]*en
 func (r servicesRepo) Update(ctx context.Context, req *entity.Services) error {
 	queryBuilder := r.db.Sq.Builder.Update(r.table).SetMap(
 		map[string]interface{}{
-			"name":     req.Name,
-			"price":    req.Price,
+			"name":  req.Name,
+			"price": req.Price,
 		},
 	).Where(r.db.Sq.Equal("guid", req.GUID))
 

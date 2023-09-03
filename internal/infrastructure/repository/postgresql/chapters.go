@@ -52,7 +52,7 @@ func (r chaptersRepo) List(ctx context.Context, filter map[string]string) ([]*en
 		"guid",
 		"title",
 		"created_at",
-	).From(r.table)
+	).From(r.table).OrderBy("created_at asc")
 
 	query, args, err := queryBuilder.ToSql()
 	if err != nil {
