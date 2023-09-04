@@ -108,8 +108,11 @@ func (u blogsUsecase) DeletePublicationsCategories(ctx context.Context, id strin
 func (u blogsUsecase) CreateAuthors(ctx context.Context, req *entity.Authors) (string, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
-
-	u.beforeCreate(&req.GUID, &req.CreatedAt, nil)
+	if req.GUID != "" {
+		u.beforeCreate(nil, &req.CreatedAt, nil)
+	} else {
+		u.beforeCreate(&req.GUID, &req.CreatedAt, nil)
+	}
 
 	return req.GUID, u.authorsRepo.Create(ctx, req)
 }

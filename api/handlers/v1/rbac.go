@@ -20,18 +20,20 @@ import (
 
 type rbacHandler struct {
 	handlers.BaseHandler
-	rbacUsecase usecase.Rbac
-	logger      *zap.Logger
-	config      *config.Config
-	enforcer    *casbin.Enforcer
+	rbacUsecase    usecase.Rbac
+	authoerUsecase usecase.Blogs
+	logger         *zap.Logger
+	config         *config.Config
+	enforcer       *casbin.Enforcer
 }
 
 func NewRbacHandler(options handlers.HandlerArguments) http.Handler {
 	handler := rbacHandler{
-		rbacUsecase: options.RbacUsecase,
-		logger:      options.Logger,
-		config:      options.Config,
-		enforcer:    options.Enforcer,
+		rbacUsecase:    options.RbacUsecase,
+		logger:         options.Logger,
+		config:         options.Config,
+		enforcer:       options.Enforcer,
+		authoerUsecase: options.BlogsUsecase,
 	}
 
 	policies := [][]string{
@@ -190,6 +192,20 @@ func (h rbacHandler) CreateUser() http.HandlerFunc {
 				HTTPStatusCode: http.StatusBadRequest,
 				ErrorText:      err.Error(),
 			})
+		}
+
+		if request.Role == entity.RoleDentist {
+			_, err := h.authoerUsecase.CreateAuthors(ctx, &entity.Authors{
+				GUID: guid,
+				Name: request.Username,
+			})
+			if err != nil {
+				render.Render(w, r, &errorsapi.ErrResponse{
+					Err:            err,
+					HTTPStatusCode: http.StatusBadRequest,
+					ErrorText:      err.Error(),
+				})
+			}
 		}
 
 		response := models.GUIDResponse{
