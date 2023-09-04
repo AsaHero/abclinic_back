@@ -40,7 +40,7 @@ func NewBlogsHandler(args handlers.HandlerArguments) http.Handler {
 		{"admin", "/v1/blogs/{id}", "DELETE"},
 		{"admin", "/v1/blogs/{id}/publication", "POST"},
 		{"admin", "/v1/blogs/publication/{id}", "PUT"},
-		{"admin", "/v1/blogs/{id}", "DELETE"},
+		{"admin", "/v1/blogs/publication/{id}", "DELETE"},
 
 		// dentist
 		{"dentist", "/v1/blogs", "POST"},
