@@ -135,6 +135,7 @@ func (h blogsHandler) GetPublicationsList() http.HandlerFunc {
 
 			if v.Type == entity.PublicationTypeVideo {
 				publication.Video = v.Content[0]
+				publication.Type = entity.PublicationTypeVideo
 			}
 
 			if v.Type == entity.PublicationTypeSwiper {
@@ -143,6 +144,8 @@ func (h blogsHandler) GetPublicationsList() http.HandlerFunc {
 						URL: imgs,
 					})
 				}
+
+				publication.Type = entity.PublicationTypeSwiper
 			}
 
 			response = append(response, publication)
