@@ -116,9 +116,10 @@ func (h priceListHandler) GetPriceListByGroup() http.HandlerFunc {
 
 		for _, v := range services {
 			response = append(response, models.Services{
-				GUID:  v.GUID,
-				Name:  v.Name,
-				Price: v.Price,
+				GUID:        v.GUID,
+				Name:        v.Name,
+				Price:       v.Price[0],
+				UrgentPrice: v.Price[1],
 			})
 		}
 
@@ -153,10 +154,12 @@ func (h priceListHandler) CreateService() http.HandlerFunc {
 			return
 		}
 
+		priceArrey := []float64{request.Price, request.UrgentPrice}
+
 		guid, err := h.priceListUsecase.CreateService(ctx, &entity.Services{
 			GroupID: request.GroupID,
 			Name:    request.Name,
-			Price:   request.Price,
+			Price:   priceArrey,
 		})
 		if err != nil {
 			h.logger.Error("error on CreateService/ priceListUsecase.CreateService", zap.Error(err))
@@ -205,10 +208,12 @@ func (h priceListHandler) UpdateService() http.HandlerFunc {
 			return
 		}
 
+		priceArrey := []float64{request.Price, request.UrgentPrice}
+
 		err := h.priceListUsecase.UpdateService(ctx, &entity.Services{
 			GUID:  guid,
 			Name:  request.Name,
-			Price: request.Price,
+			Price: priceArrey,
 		})
 		if err != nil {
 			render.Render(w, r, &errorsapi.ErrResponse{

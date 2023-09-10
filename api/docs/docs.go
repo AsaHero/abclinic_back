@@ -473,7 +473,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get authors",
+                "description": "Get author",
                 "consumes": [
                     "application/json"
                 ],
@@ -483,15 +483,12 @@ const docTemplate = `{
                 "tags": [
                     "Author"
                 ],
-                "summary": "Get authors",
+                "summary": "Get author",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Authors"
-                            }
+                            "$ref": "#/definitions/models.Authors"
                         }
                     },
                     "404": {
@@ -2293,6 +2290,9 @@ const docTemplate = `{
                 },
                 "price": {
                     "type": "number"
+                },
+                "urgent_price": {
+                    "type": "number"
                 }
             }
         },
@@ -2487,6 +2487,9 @@ const docTemplate = `{
                 },
                 "price": {
                     "type": "number"
+                },
+                "urgent_price": {
+                    "type": "number"
                 }
             }
         },
@@ -2559,6 +2562,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "price": {
+                    "type": "number"
+                },
+                "urgent_price": {
                     "type": "number"
                 }
             }

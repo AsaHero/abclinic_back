@@ -21,6 +21,7 @@ import (
 )
 
 type authorsHandler struct {
+	handlers.BaseHandler
 	config       *config.Config
 	logger       *zap.Logger
 	enforcer     *casbin.Enforcer
@@ -61,6 +62,7 @@ func NewAuthorsHandler(args handlers.HandlerArguments) http.Handler {
 
 	router.Group(func(r chi.Router) {
 		r.Get("/", handler.GetAuthorsList())
+		r.Get("/info", handler.GetAuthor())
 
 	})
 
@@ -113,6 +115,53 @@ func (h authorsHandler) GetAuthorsList() http.HandlerFunc {
 			})
 		}
 
+		render.JSON(w, r, response)
+	}
+}
+
+// GetAuthor
+// @Security ApiKeyAuth
+// @Router /v1/authors [GET]
+// @Summary Get author
+// @Description Get author
+// @Tags Author
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Authors
+// @Failure 404 {object} models.ResponseError
+// @Failure 500 {object} models.ResponseError
+func (h authorsHandler) GetAuthor() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := r.Context()
+
+		claims, ok := h.GetAuthData(ctx)
+		if !ok {
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            errors.New("failed to fetch authentication data"),
+				HTTPStatusCode: http.StatusBadRequest,
+				ErrorText:      "failed to fetch authentication data",
+			})
+		}
+
+		userID := claims["user_id"]
+
+		authors, err := h.blogsUsecase.GetAuthor(ctx, userID)
+		if err != nil {
+			render.Render(w, r, &errorsapi.ErrResponse{
+				Err:            err,
+				HTTPStatusCode: http.StatusInternalServerError,
+				ErrorText:      err.Error(),
+			})
+			return
+		}
+
+		imgInBase64 := base64.StdEncoding.EncodeToString(authors.Img)
+
+		response := models.Authors{
+			GUID: authors.GUID,
+			Name: authors.Name,
+			Img:  imgInBase64,
+		}
 		render.JSON(w, r, response)
 	}
 }

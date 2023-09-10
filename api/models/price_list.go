@@ -1,9 +1,10 @@
 package models
 
 type Services struct {
-	GUID  string  `json:"guid"`
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
+	GUID        string  `json:"guid"`
+	Name        string  `json:"name"`
+	Price       float64 `json:"price"`
+	UrgentPrice float64 `json:"urgent_price"`
 }
 
 type ServicesGroup struct {
@@ -16,16 +17,18 @@ type GUIDResponse struct {
 }
 
 type CreateServiceRequest struct {
-	GroupID string  `json:"group_id"`
-	Name    string  `json:"name"`
-	Price   float64 `json:"price"`
+	GroupID     string  `json:"group_id"`
+	Name        string  `json:"name"`
+	Price       float64 `json:"price"`
+	UrgentPrice float64 `json:"urgent_price"`
 }
 
 type UpdateServiceRequest struct {
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
+	Name        string  `json:"name"`
+	Price       float64 `json:"price"`
+	UrgentPrice float64 `json:"urgent_price"`
 }
 
 type CreateServiceGroupRequest struct {
-	Name    string  `json:"name"`
+	Name string `json:"name"`
 }

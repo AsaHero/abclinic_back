@@ -6,7 +6,7 @@ type Services struct {
 	GUID      string
 	GroupID   string
 	Name      string
-	Price     float64
+	Price     []float64
 	CreatedAt time.Time
 	UpdateAt  time.Time
 }

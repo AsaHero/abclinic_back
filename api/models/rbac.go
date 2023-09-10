@@ -5,6 +5,8 @@ type GetRolesResponse struct {
 }
 
 type GetUserInfoResponse struct {
+	GUID      string `json:"guid"`
+	Role      string `json:"role"`
 	Firstname string `json:"firstname"`
 	Lastname  string `json:"lastname"`
 	Username  string `jsom:"username"`

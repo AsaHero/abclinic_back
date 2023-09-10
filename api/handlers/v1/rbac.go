@@ -45,7 +45,7 @@ func NewRbacHandler(options handlers.HandlerArguments) http.Handler {
 		{"admin", "/v1/rbac/user/{id}", "PUT"},
 		{"admin", "/v1/rbac/user/{id}", "DELETE"},
 
-		// admin
+		// dentist
 		{"dentist", "/v1/rbac/roles", "GET"},
 		{"dentist", "/v1/rbac/user", "GET"},
 
@@ -144,6 +144,8 @@ func (h rbacHandler) GetUserInfo() http.HandlerFunc {
 		}
 
 		response := models.GetUserInfoResponse{
+			GUID:      user.GUID,
+			Role:      user.Role,
 			Firstname: user.Firstname,
 			Lastname:  user.Lastname,
 			Username:  user.Username,

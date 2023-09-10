@@ -461,7 +461,7 @@
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get authors",
+                "description": "Get author",
                 "consumes": [
                     "application/json"
                 ],
@@ -471,15 +471,12 @@
                 "tags": [
                     "Author"
                 ],
-                "summary": "Get authors",
+                "summary": "Get author",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Authors"
-                            }
+                            "$ref": "#/definitions/models.Authors"
                         }
                     },
                     "404": {
@@ -2281,6 +2278,9 @@
                 },
                 "price": {
                     "type": "number"
+                },
+                "urgent_price": {
+                    "type": "number"
                 }
             }
         },
@@ -2475,6 +2475,9 @@
                 },
                 "price": {
                     "type": "number"
+                },
+                "urgent_price": {
+                    "type": "number"
                 }
             }
         },
@@ -2547,6 +2550,9 @@
                     "type": "string"
                 },
                 "price": {
+                    "type": "number"
+                },
+                "urgent_price": {
                     "type": "number"
                 }
             }

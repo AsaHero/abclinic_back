@@ -66,7 +66,7 @@ func (r publicationsRepo) List(ctx context.Context, filter map[string]string) ([
 
 	for k, v := range filter {
 		switch k {
-		case "chapter_id":
+		case "category_id":
 			queryBuilder = queryBuilder.Where(r.db.Sq.Equal(k, v))
 		}
 	}
