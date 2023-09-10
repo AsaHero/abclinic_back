@@ -121,7 +121,7 @@ func (h authorsHandler) GetAuthorsList() http.HandlerFunc {
 
 // GetAuthor
 // @Security ApiKeyAuth
-// @Router /v1/authors [GET]
+// @Router /v1/authors/info [GET]
 // @Summary Get author
 // @Description Get author
 // @Tags Author

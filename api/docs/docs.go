@@ -473,7 +473,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Get author",
+                "description": "Get authors",
                 "consumes": [
                     "application/json"
                 ],
@@ -483,12 +483,15 @@ const docTemplate = `{
                 "tags": [
                     "Author"
                 ],
-                "summary": "Get author",
+                "summary": "Get authors",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Authors"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Authors"
+                            }
                         }
                     },
                     "404": {
@@ -538,6 +541,46 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.GUIDResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/authors/info": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get author",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Author"
+                ],
+                "summary": "Get author",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Authors"
                         }
                     },
                     "404": {

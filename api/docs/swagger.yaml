@@ -589,14 +589,16 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get author
+      description: Get authors
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Authors'
+            items:
+              $ref: '#/definitions/models.Authors'
+            type: array
         "404":
           description: Not Found
           schema:
@@ -607,7 +609,7 @@ paths:
             $ref: '#/definitions/models.ResponseError'
       security:
       - ApiKeyAuth: []
-      summary: Get author
+      summary: Get authors
       tags:
       - Author
     post:
@@ -706,6 +708,31 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update author
+      tags:
+      - Author
+  /v1/authors/info:
+    get:
+      consumes:
+      - application/json
+      description: Get author
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Authors'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Get author
       tags:
       - Author
   /v1/blogs:
