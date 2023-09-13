@@ -154,12 +154,10 @@ func (h priceListHandler) CreateService() http.HandlerFunc {
 			return
 		}
 
-		priceArrey := []float64{request.Price, request.UrgentPrice}
-
 		guid, err := h.priceListUsecase.CreateService(ctx, &entity.Services{
 			GroupID: request.GroupID,
 			Name:    request.Name,
-			Price:   priceArrey,
+			Price:   []float64{request.Price, request.UrgentPrice},
 		})
 		if err != nil {
 			h.logger.Error("error on CreateService/ priceListUsecase.CreateService", zap.Error(err))

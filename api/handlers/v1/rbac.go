@@ -220,7 +220,7 @@ func (h rbacHandler) CreateUser() http.HandlerFunc {
 
 // UpdateUser
 // @Security ApiKeyAuth
-// @Router /v1/rbac/user [PUT]
+// @Router /v1/rbac/user/{id} [PUT]
 // @Summary Update user info
 // @Description Update user info
 // @Tags Rbac
@@ -309,7 +309,7 @@ func (h rbacHandler) GetAllUsers() http.HandlerFunc {
 
 // UpdateUser
 // @Security ApiKeyAuth
-// @Router /v1/rbac/user [DELETE]
+// @Router /v1/rbac/user/{id} [DELETE]
 // @Summary Delete user
 // @Description Delete user
 // @Tags Rbac
