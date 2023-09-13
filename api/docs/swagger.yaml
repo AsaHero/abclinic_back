@@ -1199,36 +1199,6 @@ paths:
       tags:
       - Rbac
   /v1/rbac/user:
-    delete:
-      consumes:
-      - application/json
-      description: Delete user
-      parameters:
-      - description: id
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Empty'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/models.ResponseError'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.ResponseError'
-      security:
-      - ApiKeyAuth: []
-      summary: Delete user
-      tags:
-      - Rbac
     get:
       consumes:
       - application/json
@@ -1284,6 +1254,37 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create user
+      tags:
+      - Rbac
+  /v1/rbac/user/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Empty'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user
       tags:
       - Rbac
     put:
