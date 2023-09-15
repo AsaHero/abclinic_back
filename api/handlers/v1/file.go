@@ -59,7 +59,6 @@ func NewFilesHandler(option handlers.HandlerArguments) http.Handler {
 	}
 
 	handler.enforcer.SavePolicy()
-
 	router := chi.NewRouter()
 
 	router.Group(func(r chi.Router) {
