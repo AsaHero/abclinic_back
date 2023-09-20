@@ -91,7 +91,7 @@ func (u blogsUsecase) DeletePublicationsCategories(ctx context.Context, id strin
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	err := u.publicationsRepo.Delete(ctx, map[string]string{"group_id": id})
+	err := u.publicationsRepo.Delete(ctx, map[string]string{"category_id": id})
 	if err != nil {
 		if err.Error() != "no sql rows" {
 			return err

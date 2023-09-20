@@ -8,6 +8,7 @@ import (
 	"github.com/AsaHero/abclinic/internal/entity"
 	errorspkg "github.com/AsaHero/abclinic/internal/errors"
 	"github.com/AsaHero/abclinic/internal/infrastructure/repository"
+	"github.com/AsaHero/abclinic/internal/pkg/validation"
 )
 
 type Rbac interface {
@@ -77,6 +78,13 @@ func (u rbacUsecase) CreateUser(ctx context.Context, req *entity.Users) (string,
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
 
+	passwordHash, err := validation.HashPassword(req.Password)
+	if err != nil {
+		return "", err
+	}
+
+	req.Password = passwordHash
+
 	u.BaseUsecase.beforeCreate(&req.GUID, &req.CreatedAt, &req.UpdatedAt)
 
 	return req.GUID, u.usersRepo.Create(ctx, req)
@@ -90,6 +98,13 @@ func (u rbacUsecase) ListUsers(ctx context.Context, filter map[string]string) ([
 func (u rbacUsecase) UpdateUser(ctx context.Context, req *entity.Users) error {
 	ctx, cancel := context.WithTimeout(ctx, u.ctxTimeout)
 	defer cancel()
+
+	passwordHash, err := validation.HashPassword(req.Password)
+	if err != nil {
+		return err
+	}
+
+	req.Password = passwordHash
 
 	u.BaseUsecase.beforeCreate(nil, nil, &req.UpdatedAt)
 
