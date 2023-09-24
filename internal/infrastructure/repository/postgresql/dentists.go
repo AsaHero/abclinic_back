@@ -20,7 +20,7 @@ type dentistsRepo struct {
 
 func NewDentistsRepo(db *postgres.PostgresDB) repository.Denstists {
 	return &dentistsRepo{
-		table: tableDentists	,
+		table: tableDentists,
 		db:    db,
 	}
 }
@@ -109,7 +109,7 @@ func (r dentistsRepo) Update(ctx context.Context, req *entity.Dentists) error {
 		map[string]interface{}{
 			"info": req.Info,
 			"name": req.Name,
-			"side": req.Side,
+			"url":  req.URL,
 		},
 	).Where(r.db.Sq.Equal("id", req.ID))
 

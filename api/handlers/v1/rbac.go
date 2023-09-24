@@ -21,7 +21,7 @@ import (
 type rbacHandler struct {
 	handlers.BaseHandler
 	rbacUsecase    usecase.Rbac
-	authoerUsecase usecase.Blogs
+	authorUsecase usecase.Blogs
 	logger         *zap.Logger
 	config         *config.Config
 	enforcer       *casbin.Enforcer
@@ -33,7 +33,7 @@ func NewRbacHandler(options handlers.HandlerArguments) http.Handler {
 		logger:         options.Logger,
 		config:         options.Config,
 		enforcer:       options.Enforcer,
-		authoerUsecase: options.BlogsUsecase,
+		authorUsecase: options.BlogsUsecase,
 	}
 
 	policies := [][]string{
@@ -197,7 +197,7 @@ func (h rbacHandler) CreateUser() http.HandlerFunc {
 		}
 
 		if request.Role == entity.RoleDentist {
-			_, err := h.authoerUsecase.CreateAuthors(ctx, &entity.Authors{
+			_, err := h.authorUsecase.CreateAuthors(ctx, &entity.Authors{
 				GUID: guid,
 				Name: request.Username,
 			})
