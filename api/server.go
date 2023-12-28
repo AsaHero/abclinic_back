@@ -21,7 +21,6 @@ func NewServer(cfg *config.Config, handler http.Handler) (*http.Server, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error while parsing server idle timeout: %v", err)
 	}
-
 	return &http.Server{
 		Handler:      handler,
 		ReadTimeout:  readTimeout,
